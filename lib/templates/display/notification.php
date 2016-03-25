@@ -1,0 +1,1 @@
+<h2 class='center_text'><?php echo $message ?></h2>

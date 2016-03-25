@@ -1,0 +1,50 @@
+/*
+
+@title: Red
+@desc: A light red theme.
+@author: Pips
+
+*/
+
+
+a {
+    
+    color: #d94f5d;!
+    
+}
+
+a:hover {
+    
+    color: #ba4753;!
+    
+}
+
+th{
+    
+    background-color: #d94f5d;!
+    
+}
+
+input[type~="text"],
+[type~="number"],
+[type~="password"],
+[type~="submit"] {
+    
+    border-color: #d94f5d;!
+    
+}
+
+.default-url {
+  
+    color: #d94f5d;!
+  
+}
+
+.menu--shylock .menu__item--current .menu__link,
+.menu--shylock .menu__item--current .menu__link:hover,
+.menu--shylock .menu__item--current .menu__link:focus,
+.menu--shylock .menu__link::after{
+    
+	color: #d94f5d;!
+    
+}

@@ -1,0 +1,44 @@
+/*
+
+@title: Dark red.
+@desc: A dark red theme.
+@author: Pips
+
+*/
+
+
+a {
+    
+    color: #8d0000;!
+    
+}
+
+th{
+    
+    background-color: #8d0000;!
+    
+}
+
+input[type~="text"],
+[type~="number"],
+[type~="password"],
+[type~="submit"] {
+    
+    border-color: #8d0000;!
+    
+}
+
+.default-url {
+  
+    color: #8d0000;!
+  
+}
+
+.menu--shylock .menu__item--current .menu__link,
+.menu--shylock .menu__item--current .menu__link:hover,
+.menu--shylock .menu__item--current .menu__link:focus,
+.menu--shylock .menu__link::after{
+    
+	color: #8d0000;!
+    
+}

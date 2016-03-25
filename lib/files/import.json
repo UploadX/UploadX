@@ -1,0 +1,14 @@
+{
+  "Name": "",
+  "RequestType": "POST",
+  "RequestURL": "",
+  "FileFormName": "file",
+  "Arguments": {
+    "key": ""
+  },
+  "ResponseType": "RedirectionURL",
+  "RegexList": [],
+  "URL": "",
+  "ThumbnailURL": "",
+  "DeletionURL": ""
+}

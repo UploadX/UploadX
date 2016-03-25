@@ -1,0 +1,44 @@
+/*
+
+@title: Green.
+@desc: A green theme.
+@author: Pips
+
+*/
+
+
+a {
+    
+    color: #4C9014;!
+    
+}
+
+th{
+    
+    background-color: #4C9014;!
+    
+}
+
+input[type~="text"],
+[type~="number"],
+[type~="password"],
+[type~="submit"] {
+    
+    border-color: #4C9014;!
+    
+}
+
+.default-url {
+  
+    color: #4C9014;!
+  
+}
+
+.menu--shylock .menu__item--current .menu__link,
+.menu--shylock .menu__item--current .menu__link:hover,
+.menu--shylock .menu__item--current .menu__link:focus,
+.menu--shylock .menu__link::after{
+    
+	color: #4C9014;!
+    
+}

@@ -1,0 +1,1 @@
+<center><div class="center_content animated fadeIn"><b style="font-size:20px;text-decoration:underline;"><?php echo $file_name; ?></b></div></center><br><br>

@@ -1,0 +1,188 @@
+{
+
+  "missing:css": {
+
+    "error_code": "missing:css",
+    "error_message": "Style Sheet was missing, restored from github. (everything is okay)",
+    "error_level": "ADMIN"
+
+  },
+  "missing:htaccess": {
+
+    "error_code": "missing:htaccess",
+    "error_message": ".htaccess file was missing, restored from github. (everything is okay)",
+    "error_level": "ADMIN"
+
+  },
+  "missing:criticalfile": {
+
+    "error_code": "missing:criticalfile",
+    "error_message": "A critical file was missing. We attempted to fix it, but it might not work. If there are still issues/errors, please re-install the software or upgrade to the newest version.",
+    "error_level": "ADMIN"
+
+  },
+
+  "settings:badpassword": {
+
+    "error_code": "settings:badpassword",
+    "error_message": "The current password is insecure, you should really change it.",
+    "error_level": "ADMIN"
+
+  },
+
+  "settings:uploadlimit": {
+
+    "error_code": "settings:uploadlimit",
+    "error_message": "The upload limit in the settings is too high, the server's php.ini won't accept a file that size. You can either change the limit in UploadX, or in your <b>php.ini</b>",
+    "error_level": "ADMIN"
+
+  },
+
+  "action:error": {
+
+    "error_code": "action:error",
+    "error_message": "There was an error somewhere.",
+    "error_level": "USER"
+
+  },
+
+  "action:badusername": {
+
+    "error_code": "action:badusername",
+    "error_message": "This user already exists.",
+    "error_level": "ADMIN"
+
+  },
+  
+  "action:nouser": {
+
+    "error_code": "action:nouser",
+    "error_message": "There is no user by that name",
+    "error_level": "ADMIN"
+
+  },
+  
+
+  "action:notallowed": {
+
+    "error_code": "action:notallowed",
+    "error_message": "That action is not permitted! (we don't know exactly what's wrong, so we're telling you this instead)",
+    "error_level": "USER"
+
+  },
+
+  "action:nofile": {
+
+    "error_code": "action:nofile",
+    "error_message": "The file you're trying to access doesn't exist, or has been deleted. Sorry.",
+    "error_level": "USER"
+
+  },
+
+  "action:maxbandwidth": {
+
+    "error_code": "action:maxbandwidth",
+    "error_message": "This file has hit it's maximum bandwitdh, so it's disabled until further notice.",
+    "error_level": "USER"
+
+  },
+    
+    "action:wrongpassword": {
+
+    "error_code": "action:wrongpassword",
+    "error_message": "Wrong password.",
+    "error_level": "USER"
+
+  },
+
+  "action:userdisabled": {
+
+    "error_code": "action:userdisabled",
+    "error_message": "The user who uploaded this account has been disabled. As such, so has all of their uploads, including this one.",
+    "error_level": "USER"
+
+  },
+
+  "action:spamprotection": {
+
+    "error_code": "action:spamprotection",
+    "error_message": "Our systems have detected that you're accessing a file <b>way</b> too many times, so you've been <b>temporarily</b> banned from accessing any files on this server.",
+    "error_level": "USER"
+
+  },
+
+  "upload:error": {
+
+    "error_code": "upload:error",
+    "error_message": "There was an error with your upload. We're not sure where.",
+    "error_level": "USER"
+
+  },
+
+  "upload:toolarge": {
+
+    "error_code": "upload:toolarge",
+    "error_message": "The file you're trying to upload is too large for the server.",
+    "error_level": "USER"
+
+  },
+
+  "upload:wrongkey": {
+
+    "error_code": "upload:wrongkey",
+    "error_message": "Sorry, but you're upload key is wrong. Double check it, or contact the administrator",
+    "error_level": "USER"
+
+  },
+
+  "upload:banned": {
+
+    "error_code": "upload:disabled",
+    "error_message": "It looks like your account has been disabled from uploading.",
+    "error_level": "USER"
+
+  },
+
+  "upload:nokey": {
+
+    "error_code": "upload:nokey",
+    "error_message": "You forgot to enter a key before uploading.",
+    "error_level": "USER"
+
+  },
+
+  "upload:wrongfile": {
+
+    "error_code": "upload:wrongfile",
+    "error_message": "It looks like you're trying to upload a file, but 'file from name' was not set to file. ",
+    "error_level": "USER"
+
+  },
+
+  "upload:badextension": {
+
+    "error_code": "upload:badextension",
+    "error_message": "You tried to upload a file with a filetype that is not allowed.",
+    "error_level": "USER"
+
+  },
+
+  "error:unknown": {
+
+    "error_code": "error:unknown",
+    "error_message": "There was an error somewhere. This should really have an actual error for this.",
+    "error_level": "USER"
+
+  },
+
+  "error:error": {
+
+    "error_code": "error:error",
+    "error_message": "TOO MANY ERRORS. (this happened because the error handler had an error with the error.)",
+    "error_level": "USER"
+
+  }
+
+
+
+}

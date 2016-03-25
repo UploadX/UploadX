@@ -1,0 +1,13 @@
+# redirect #
+
+RewriteEngine on  
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule admin\/+([^/]+)?\/?([^/]+)? ./index.php?page=$1&opt=$2 [L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ([^/]+)/?(view)? ./index.php?id=$1&action=$2 [L]
+
+RedirectMatch 403 \/lib\/

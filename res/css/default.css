@@ -1,0 +1,400 @@
+
+/* CSS defaults designed by Pips or stolen from the internet */
+
+
+
+/* All pages */
+body {
+	
+  font-family: SANS-SERIF;
+  background-color: #222222;
+  color: white;
+  
+}
+
+h1 {
+  
+  font-size: 3em; 
+  text-decoration: underline;
+  
+}
+
+a {
+  
+  text-decoration: none;
+  
+}
+
+#login_title{
+  
+  text-align: center;
+  
+  
+}
+
+/* Tables */
+
+form, table {
+  
+  display:inline; margin:0px; padding:0px;
+  
+}
+
+table{
+  
+  width:100%;
+  min-width:500px;
+  border-collapse:collapse;  
+  font-weight:bold;
+  background-color: #1c1c1c;
+  box-shadow: 0px 7px 12px -8px rgba(0,0,0,0.75);
+  
+}
+
+tr{
+  
+  height:50px;
+  border-bottom: rgba(0,0,0,.05) 1px solid;
+  
+}
+
+td{    
+  
+  box-sizing:border-box;
+  text-align: center;
+  font-size: 12px;
+    
+}
+
+th{
+  font-size: 20px;
+  text-decoration-line: 1px;
+}
+
+/* Login page */
+
+#login_form{
+  
+  padding-top: 3px;
+  margin: auto;
+  width: 20%;
+  text-align: center;
+  
+}
+
+#login_title h1 {
+  
+  font-size: 3em; 
+  text-decoration: underline;
+  
+}
+
+.center {
+    
+    margin: auto;
+       
+}
+
+.center_text{
+    
+    text-align: center;
+    
+}
+
+.center_content{
+    
+
+        display: block;
+margin: 0 auto;
+    
+}
+
+/* Viewer */
+
+video#frame  {
+	
+	max-width: 70%;
+    display: block;
+margin: 0 auto;
+}
+
+iframe#frame  {
+	width: 60%;
+	height: 80%;
+	
+}
+
+img#frame {
+    
+    max-width: 90%;!
+    max-height: 90%;!
+    display: block;
+margin: 0 auto;
+    
+}
+
+#frame{
+  
+   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    background-color: #1c1c1c;
+    
+  
+}
+
+#frame_code{
+  
+   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    background-color: #1c1c1c;
+    max-width: 70%;
+    
+  
+}
+
+.hljs{
+    background-color: #1c1c1c;!
+    background: #1c1c1c;!
+    overflow: auto;
+}
+
+code{
+    
+    overflow: auto;
+    
+}
+
+
+#nav {
+  
+  display: block;
+    margin: auto;
+  
+}
+
+#display_div{
+   padding-top: 30px;!
+}
+
+#info_panel{
+  
+  font-weight:700;
+  font-size: 14px;
+  
+}
+
+div{
+  
+  padding: 10px;
+  
+}
+
+#page{
+  
+  
+}
+
+iframe{
+  
+  background-color:white;
+}
+
+#upload-table{
+  
+  width: 80%;
+  
+}
+
+
+/* Styling */
+
+input[type~="text"],[type~="number"],[type~="password"] {
+  
+  font-weight: bold;
+  border-style:inset;
+  padding: 5px;
+  font-size: 14px;
+  text-align: left;
+   /* set in theme css doc */ 
+  border-top:0px;
+  border-left: 0px;
+  border-right: 0px;
+  background-color: #1c1c1c;
+  color: #c3c3c3;
+  border-width: 2px;
+  box-shadow: inset 9px 9px 7px -10px rgba(0,0,0,0.58);
+  
+}
+
+input[type~="submit"] {
+  
+  font-weight: bold;
+  border-style:inset;
+  padding: 5px;
+  font-size: 14px;
+  text-align: left;
+   /* set in theme css doc */ 
+  border-top:0px;
+  border-left: 0px;
+  border-right: 0px;
+  background-color: #1c1c1c;
+  color: #e8e8e8;
+  border-width: 2px;
+  box-shadow: 0px 8px 23px -5px rgba(0,0,0,0.46);
+  
+}
+
+#nav_bar{
+  
+  width: auto;
+  
+}
+
+.default-url{
+  
+   /* set in theme css doc */ 
+  
+}
+
+.no-color{
+  
+  text-decoration: none;
+  color: inherit;
+  
+}
+
+/* Common styles for all menus */
+.menu {
+	line-height: 1;
+	margin: 0 auto 3em;
+
+}
+
+.menu__list {
+	position: relative;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-wrap: wrap;
+	flex-wrap: wrap;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+  
+}
+
+.menu__item {
+	display: block;
+	margin: 1em 0;
+    background: #1c1c1c;
+}
+
+.menu__link {
+	font-size: 1.05em;
+	font-weight: bold;
+	display: block;
+	padding: 1em;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	-webkit-touch-callout: none;
+	-khtml-user-select: none;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.menu__link:hover,
+.menu__link:focus {
+	outline: none;
+}
+
+/* Individual styles */
+
+
+/* Shylock (by @benhanks040888) */
+.menu--shylock .menu__link {
+	position: relative;
+	margin: 0 1em;
+	padding-right: 0;
+	padding-left: 0;
+	color: #b5b5b5;
+	-webkit-transition: color 0.4s;
+	transition: color 0.4s;
+}
+
+.menu--shylock .menu__item--current .menu__link,
+.menu--shylock .menu__item--current .menu__link:hover,
+.menu--shylock .menu__item--current .menu__link:focus {
+	 /* set in theme css doc */ 
+}
+
+.menu--shylock .menu__item--current .menu__link::after,
+.menu--shylock .menu__item--current .menu__link::before {
+	-webkit-transform: scale3d(1, 1, 1);
+	transform: scale3d(1, 1, 1);
+}
+
+.menu--shylock .menu__item--current .menu__link::before {
+	-webkit-transition-delay: 0s;
+	transition-delay: 0s;
+}
+
+.menu--shylock .menu__link:hover,
+.menu--shylock .menu__link:focus {
+	color: #b5b5b5;
+}
+
+.menu--shylock .menu__link:hover::before,
+.menu--shylock .menu__link:focus::before {
+	-webkit-transform: scale3d(1, 1, 1);
+	transform: scale3d(1, 1, 1);
+	-webkit-transition-delay: 0s;
+	transition-delay: 0s;
+}
+
+.menu--shylock .menu__link::before,
+.menu--shylock .menu__link::after {
+	content: '';
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 3px;
+	-webkit-transform: scale3d(0, 1, 1);
+	transform: scale3d(0, 1, 1);
+	-webkit-transform-origin: center left;
+	transform-origin: center left;
+	-webkit-transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+	transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.menu--shylock .menu__link::before {
+	background: #b5b5b5;
+	-webkit-transition-delay: 0.4s;
+	transition-delay: 0.4s;
+}
+
+.menu--shylock .menu__link::after {
+    
+    /* set in theme css doc */ 
+    
+}
+
+
+/* Stack items for smaller screens */
+@media screen and (max-width:55em) {
+	.menu__list {
+		display: block;
+		margin: 0 auto;
+	}
+}
+
+#menu_button{
+    
+    user-drag: none; 
+user-select: none;
+-moz-user-select: none;
+-webkit-user-drag: none;
+-webkit-user-select: none;
+-ms-user-select: none;
+    
+}
+
