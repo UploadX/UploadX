@@ -15,7 +15,7 @@ class errorHandler{
 
         if(isset($error_codes[$error_code])){
             
-            $error = new error($error_codes[$error_code]);
+            $error = new applicationError($error_codes[$error_code]);
             
             return $error; 
 
