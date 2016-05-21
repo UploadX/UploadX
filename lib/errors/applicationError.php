@@ -1,6 +1,6 @@
 <?php 
 
-class error{
+class applicationError{
     
     public $code;
     public $message;
