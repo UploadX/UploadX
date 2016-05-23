@@ -1,0 +1,11 @@
+<?php
+    $config = array(
+      /* MySQL Configuration - End User NEEDS to configure this */
+      'mysql' => array(
+        'host'     => '127.0.0.1',
+        'user'     => 'root',
+        'pass'     => 'password',
+        'database' => 'uploadx'
+      ),
+      'location' => '/full/path/to/your/images', //Set to the full path to the image directory
+    );

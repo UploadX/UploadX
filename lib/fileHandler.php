@@ -11,14 +11,16 @@ class fileHandler{
   protected $userHandler;
   
   protected $files;
-  
+
+  protected $db;
   function __construct(){
     
     $this->settingsHandler = new settingsHandler();
     $this->errorHandler = new errorHandler();
     $this->userHandler = new userHandler();
-    
+
     $this->files = json_decode(file_get_contents(__DIR__.'/files/files.json'), true);
+    $this->db = new mysqlHandler();
   }
   
   function saveFile($file, $uploader){
@@ -29,105 +31,61 @@ class fileHandler{
     $ext = pathinfo($file_temp . $file_name, PATHINFO_EXTENSION);
     $file_id = $this->generateFileName();
     $new_file_name = $file_id . '.' . $ext;
-    $new_file_location = __DIR__ . $this->settingsHandler->getSettings()['security']['storage_folder'] . $new_file_name;
+    $new_file_location = __UPLOAD__ . $new_file_name;
     $old_name = $file_name;
-	$time = date("Y-m-d h:ia");
+	  $time = date("Y-m-d h:ia");
 
     
     // create the upload directory if it doesn't exist
     if(!file_exists(__DIR__ . $this->settingsHandler->getSettings()['security']['storage_folder'])){
-    mkdir(__DIR__ . $this->settingsHandler->getSettings()['security']['storage_folder']);
-}
+      mkdir(__DIR__ . $this->settingsHandler->getSettings()['security']['storage_folder']);
+    }
     // attempt to move the file
     if(move_uploaded_file($file_temp, $new_file_location)){
       
       // bump the count up
       $uploader->uploads++;
       $this->userHandler->saveUser($uploader);
-      
-       $file_type = $this->getMIME($new_file_location);
+
+      $file_type = $this->getMIME($new_file_location);
       $link_data[$file_id]['location'] = $new_file_location;
       $link_data[$file_id]['access_count'] = 0;
       $link_data[$file_id]['type'] = $file_type;
       $link_data[$file_id]['uploader'] = $uploader->username;
       $link_data[$file_id]['uploader_ip'] = $_SERVER['REMOTE_ADDR'];
       $link_data[$file_id]['old_name'] = $old_name;
-	  $link_data[$file_id]['upload_time'] = $time;
+	    $link_data[$file_id]['upload_time'] = $time;
       $link_data[$file_id]['filesize'] = $this->filesizeConvert(filesize($new_file_location));
           
-       if(isset($_POST['delete']) and ($_POST['delete'] == 'true')){
-                
-                 $link_data[$file_id]['delete_after'] = true;
-                
-            }else{
-                
-                $link_data[$file_id]['delete_after'] = false;
-                
-            }
-      
-      $this->files = $this->files + $link_data;
-      $this->save();
-      
-      header("Location: ./$file_id");
-      
-    }else{
-      
-      $this->errorHandler->throwError('upload:error');
-      
-    }
-    
-  }
-  
-  // at the request of jade
-  function fixFiles(){
-    
-    // cycle through all the files
-    foreach ($this->files as $id => $data){
-      
-      // get a new directory string for each file using some string manipulation magic and some luck
-      $fixed = __DIR__ . $this->settingsHandler->getSettings()['security']['storage_folder'] . pathinfo($data['location'], PATHINFO_BASENAME);
-      
-      // update the reference with the new data
-      $this->files[$id]['location'] = $fixed;
-      
-      // tell you we did something
-      echo $data['location'] ."  ->  ". $fixed . "<br>";
-      
-    }
-      
-      foreach ($this->files as $id => $data){
-          
-          if (file_exists($data['location'])){
-              $filesize = $this->filesizeConvert(filesize($data['location']));
-              $this->files[$id]['filesize'] = $filesize;
+      if(isset($_POST['delete']) and ($_POST['delete'] == 'true')){
+        $link_data[$file_id]['delete_after'] = true;
+        $delete = true;
+      }else{
+        $link_data[$file_id]['delete_after'] = false;
+        $delete = false;
+      }
 
-              echo $id . " filesize updated. filesize: $filesize <br>";
-        }else{
-              echo "$id is a non existing file. (not going to delete it)<br>";
-          }
-      
+      $this->files = $this->files + $link_data;
+
+
+      $uploader_ip = $_SERVER['REMOTE_ADDR'];
+      $fsize = $this->filesizeConvert(filesize($new_file_location));
+
+      if($this->db->insert($new_file_name, $file_id, $old_name, $file_type, $uploader->username, $uploader_ip, $time, $fsize, $delete)){
+        #$this->save();
+        header("Location: ./$file_id");
+      }else{
+        $this->errorHandler->throwError('upload:error');
       }
-      
-      foreach ($this->files as $id => $data){
-          
-          if(!isset($data['upload_time'])){
-              
-              $this->files[$id]['upload_time'] = "unknown";
-              echo "$id has no upload time, preventing it from causing errors.<br>";
-              
-          }
-          
-      }
-      
-    
-    // save that shit
-    $this->save();
+    }else{
+      $this->errorHandler->throwError('upload:error');
+    }
     
   }
   
   function deleteFile($id){
     
-    if( $this->isValidId($id) ){
+    if($this->isValidId($id)){
       
       unlink($this->files[$id]['location']);
       unset($this->files[$id]);
@@ -143,17 +101,21 @@ class fileHandler{
   function showFile(){  
     
       $id = $_GET['id'];
-      $id_data = $this->files[$id];
-      $location = $id_data['location'];
-      $size = filesize($location);
-      $filename = $id_data['old_name'];
-      $type = $id_data['type'];
-      
+      $id_data = $this->db->getFileData($id);
+//      $id_data = $this->files[$id];
+//      $location = $id_data['location'];
+//      $size = filesize($location);
+//      $filename = $id_data['old_name'];
+//      $type = $id_data['type'];
+//
+      $filename = $id_data['file_name'];
+      $location = __UPLOAD__.$filename;
+      $size = $id_data['upload_size'];
+      $type = $id_data['file_type'];
+
       if(!$_SESSION["loggedin"]){
-    
-      $this->files[$id]['access_count']++;
-      $this->save();
-     }
+        $this->db->updateViews($id);
+      }
       
       header("Content-type: $type");
       header("Content-legnth: $size");
@@ -165,33 +127,37 @@ class fileHandler{
       
       // read the file out
       readfile($location);
-      
-    
+
   }
   
   public function isValidId($id){
-    
-    if(isset($this->files[$id])){
+    if ($this->db->checkID($id)) {
       return true;
-    }else{
+    } else {
       return false;
     }
-    
   }
   
   function getFileData($id){
-    
-    if ($this->isValidId($id)){
+    if($this->db->checkID($id)) {
+      $this->db->getFileData($id);
+    }else if($this->isValidId($id)){
       
       return $this->files[$id];
-      
     }
     else{
       return null;
     }
     
   }
-  
+  function getFileDataLegacy($id){
+    if($this->isValidId($id)){
+      return $this->files[$id];
+    }else{
+      return null;
+    }
+  }
+
   function generateFileName(){
     
     $generator_settings = $this->settingsHandler->getSettings()['generator'];   
@@ -202,8 +168,6 @@ class fileHandler{
     $upper_case = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $lower_case = 'abcdefghijklmnopqrstuvwxyz';
     $numeric = '0123456789';
-    
-    $set;
     
     if($file_name_mode == 1)
         $set = $upper_case . $lower_case . $numeric;
@@ -290,7 +254,7 @@ class fileHandler{
             'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
         );
     
-          $ext = strtolower(array_pop(explode('.',$filename)));
+        $ext = strtolower(array_pop(explode('.',$filename)));
         if (array_key_exists($ext, $mime_types)) {
             return $mime_types[$ext];
         }
@@ -307,8 +271,7 @@ class fileHandler{
     
   }
     
-    function filesizeConvert($bytes)
-{
+  function filesizeConvert($bytes){
     $bytes = floatval($bytes);
         $arBytes = array(
             0 => array(
@@ -344,7 +307,7 @@ class fileHandler{
         }
     }
     return $result;
-}
+  }
   
   private function save(){
     
@@ -358,10 +321,5 @@ class fileHandler{
     return $this->files;
     
   }
-  
-  
+
 }
-
-
-
-?>

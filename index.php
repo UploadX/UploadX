@@ -6,8 +6,11 @@ $debug = false;
 
 // include everything in the main file so the sub-classes can access it.
 include_once __DIR__.'/lib/errors/errorHandler.php';
-include_once __DIR__.'/lib/errors/error.php';
+include_once __DIR__.'/lib/errors/applicationError.php';
+
 include_once __DIR__.'/lib/errors/sanityChecker.php';
+
+include_once __DIR__.'/lib/mysqlHandler.php';
 
 include_once __DIR__.'/lib/users/userHandler.php';
 include_once __DIR__.'/lib/users/user.php';
@@ -20,6 +23,7 @@ include_once __DIR__.'/lib/fileHandler.php';
 
 include_once __DIR__.'/lib/web/webCore.php';
 
+include_once __DIR__.'/lib/config.php';
 
 // logic to detect http/https connection
 $connection = 'http';
@@ -30,6 +34,8 @@ if(!empty($_SERVER['HTTPS']))
 $GLOBALS['home'] =  $connection . '://' . str_replace("index.php", "", $_SERVER['SERVER_NAME'] . $_SERVER['PHP_SELF']);
 $GLOBALS['dir'] = __DIR__ ;
 
+define('dbConfig', $config['mysql']);
+define('__UPLOAD__', $config['location']);
 
 // create the handlers
 $errorHandler = new errorHandler();
