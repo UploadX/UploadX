@@ -245,7 +245,11 @@ class webCore
     $uploader_ip = $file_data['uploader_ip']; // IP of the uploader.
     $upload_time = $file_data['upload_time'];
     $file_name = $file_data['file_original'];
-    $is_admin = $_SESSION[$this->session]; //is admin. This is used in the bottom half of frame.php
+    if (isset($_SESSION[$this->session])) {
+      $is_admin = $_SESSION[$this->session];
+    } else {
+      $is_admin = false;
+    }
     $title = $id;
     $file_size = $file_data['upload_size'];
     $theme = $this->settingsHandler->getSettings()['viewer']['theme'];

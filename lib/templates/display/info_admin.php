@@ -4,7 +4,7 @@
 <?php
   if ($this->settingsHandler->getSettings()['uploads']['viewer_delete'] == true) {
 ?>
-<form action="./admin/" method="post" id='delete_form'>
+<form action="<?= $admin_url; ?>" method="post" id='delete_form'>
   <a class="icon icon-trash" onclick="document.getElementById('delete_form').submit();" href="">Delete File</a>
   <input type="hidden" name="action" value="deletefile">
   <input type="hidden" name="id" value="<?= $id; ?>">

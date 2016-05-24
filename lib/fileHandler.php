@@ -70,18 +70,23 @@ class fileHandler
     }
   }
 
+  /**
+   * Deletes an uploaded file
+   *
+   * @param $id
+   */
   function deleteFile($id) {
 
     if ($this->isValidId($id)) {
+      if ($this->db->uploadDelete($id)) {
+        $id_data = $this->db->uploadGetData($id);
+        $user_id = $id_data['uploader_id'];
+        $file = $id_data['file_name'];
 
-//      unlink($this->files[$id]['location']);
-//
-//      $this->save();
-//      $this->__construct();
-
+        $full_path = $this->base_dir . "$user_id/$file";
+        unlink($full_path);
+      }
     }
-
-
   }
 
   function deleteUserDir($username) {

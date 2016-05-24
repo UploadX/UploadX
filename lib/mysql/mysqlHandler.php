@@ -105,7 +105,7 @@ class mysqlHandler
       $this->errorFatal("uploadGetData", $query);
     }
     if(!$assoc = $result->fetch_assoc()){
-      $this->errorFatal("uploadGetData", $query);
+      return false;
     }else{
       return $assoc;
     }
@@ -208,6 +208,26 @@ class mysqlHandler
     }
   }
 
+  /**
+   * Remove an upload record from the database
+   *
+   * @param $id
+   * @return bool
+   */
+  public function uploadDelete($id) {
+    $this->checkConn();
+    $id = $this->cleanVar($id);
+    if ($this->uploadCheckID($id)) {
+      $query = "DELETE FROM uploadx_files WHERE file_id = '$id'";
+
+      if (!$result = $this->checkQuery($query)) {
+        $this->errorFatal("uploadDelete", $query);
+      } else {
+        return true;
+      }
+    }
+    return false;
+  }
   /**
    * Check if the upload ID exists
    *

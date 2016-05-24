@@ -15,7 +15,7 @@
                     <nav class="st-menu st-effect-4" id="menu-4">
 
                         <h2>UploadX | <?php echo $id;?></h2>
-                        <?php include $GLOBALS['dir'].'/lib/templates/display/info_panel.php' ?>
+                        <?php include $GLOBALS['dir'].'/lib/templates/display/panel_admin.php' ?>
 
                     </nav>
 

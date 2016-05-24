@@ -4,7 +4,8 @@
     <strong>Error Message:</strong> A MySQL error occurred in function <?= $error_func; ?><b/><br/>
   </p>
     <?php
-      if(isset($_SESSION['loggedin'])){
+      $admin_session = config['security']['session'];
+      if(isset($_SESSION[$admin_session])){
         echo "<hr/>";
         echo "<h3>Admin Debug Info</h3>";
         echo "<hr/>";
