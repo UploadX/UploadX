@@ -7,7 +7,6 @@ $debug = false;
 // include everything in the main file so the sub-classes can access it.
 include_once __DIR__.'/lib/errors/errorHandler.php';
 include_once __DIR__.'/lib/errors/applicationError.php';
-
 include_once __DIR__.'/lib/errors/sanityChecker.php';
 
 include_once __DIR__ . '/lib/mysql/mysqlHandler.php';
