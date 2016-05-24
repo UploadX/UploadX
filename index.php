@@ -30,6 +30,16 @@ if(!file_exists( __DIR__.'/lib/config.php')){
 }
 include_once __DIR__.'/lib/config.php';
 
+if (!isset($config)) {
+  die("Invalid config or config isn't setup!");
+}
+define('dbConfig', $config['mysql']);
+define('__UPLOAD__', $config['uploads']['location']);
+define('config', $config);
+define('limits',  config['limits']);
+define('admin_session', $config['security']['session']);
+define('devel', $config['developer']);
+
 // logic to detect http/https connection
 $connection = 'http';
 if(!empty($_SERVER['HTTPS']))
@@ -39,9 +49,8 @@ if(!empty($_SERVER['HTTPS']))
 $GLOBALS['home'] =  $connection . '://' . str_replace("index.php", "", $_SERVER['SERVER_NAME'] . $_SERVER['PHP_SELF']);
 $GLOBALS['dir'] = __DIR__ ;
 
-define('dbConfig', $config['mysql']);
-define('__UPLOAD__', $config['location']);
 define('ROOTPATH', __DIR__);
+define('BASE_URL', $connection . '://' . str_replace("index.php", "", $_SERVER['SERVER_NAME'] . $_SERVER['PHP_SELF']));
 
 // create the handlers
 $errorHandler = new errorHandler();
@@ -49,15 +58,16 @@ $userHandler = new userHandler();
 
 $webCore = new webCore();
 $sanityChecker = new SanityChecker();
-//$settingsHandler = new settingsHandler();
 
 $sanityChecker->checkFiles();
 $sanityChecker->checkSettings();
 
 // session manager
 session_start();
-if(!isset ($_SESSION['loggedin'])){
-    $_SESSION['loggedin'] = false;
+if(!isset ($_SESSION[admin_session])){
+  define('is_admin', false);
+} else {
+  define('is_admin', true);
 }
 
 if ($debug){
@@ -73,14 +83,6 @@ var_dump($_GET);
     echo '$_FILES<br>';
 var_dump($_FILES);
   
-}
-
-if(__UPLOAD__ == '/full/path/to/your/images/upload-base-directory/'){
-  ?>
-<h1>CONFIG ERROR!</h1>
-<p>You didn't configure your upload path! Please re-read quickstart.md on GitHub!></p>
-  <?php
-  exit();
 }
 
 /* Testing Area */
@@ -109,7 +111,6 @@ else if (!empty($_GET)){
     
     // valid file
     $fileHandler = new fileHandler();
-
     if ($fileHandler->isValidId($_GET['id'])){
       if(empty($_GET['action'])){
         $webCore->buildPreview();
@@ -131,7 +132,7 @@ else if (!empty($_GET)){
       $webCore->buildPage($_GET['page'], $_GET['opt']);
     }
   }else{
-    echo "404";
+    header("HTTP/1.0 404 Not Found");
   }  
 }
 

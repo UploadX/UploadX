@@ -41,84 +41,51 @@
 
 class userHandler
 {
-
-  protected $users;
   protected $SettingsHandler;
   protected $users_json;
 
   protected $root_dir;
+
+  protected $config;
+
   private $db;
 
-  function __construct()
-  {
+  function __construct() {
 
     // create settings handler to check user creation agaist settings
     $this->settingsHandler = new settingsHandler();
-    // users array
-    $this->users = [];
     $this->root_dir = ROOTPATH;
     // users array as raw JSON from file
     $json_file = $this->root_dir . '/lib/files/users.json';
     $this->db = new mysqlHandler();
+    $this->config = config;
 
     if (file_exists($json_file)) {
-      echo "Found <strong>legacy</strong> users.json file..<br/>\r";
-      $this->migrate($json_file);
+      $this->migrate();
     }
   }
 
-  private function migrate($json_file)
-  {
+  private function migrate() {
     $this->db->usersMigrate();
   }
 
   // create user. Should add support to limit uploads. later.
-  function createUser($username)
-  {
+  function createUser($username) {
 
     if (!$this->isUser($username)) {
-
       $access_key = $this->generateKey();
-      $filesize_limit = $this->user_dataHandler->getSettings()['limits']['size'];
-      $uploads = 0;
-      $enabled = true;
-
+      //$filesize_limit = $this->user_dataHandler->getSettings()['limits']['size'];
+      $filesize_limit = $this->config['limits']['size'];
       $this->db->userCreate($username, $access_key, $filesize_limit);
-//            $user = new user($username, $access_key, $filesize_limit, $uploads, $enabled);
-
-//            array_push($this->users, $user);
-
-//            $this->users_json[$username]['access_key']     = $access_key;
-//            $this->users_json[$username]['filesize_limit'] = $filesize_limit;
-//            $this->users_json[$username]['uploads']        = $uploads;
-//            $this->users_json[$username]['enabled']        = $enabled;
-//
-//            $this->save();
-//            $this->db->userCreate($username, $access_key, $filesize_limit, $uploads, $enabled);
     } else {
-
       # throw user exists error
-
     }
 
 
   }
 
-  // this is a way that we can update a user's settings; by recreating the uesr out-of-class, then passing it here.
-//    function saveUser($user) {
-//
-//        $this->users_json[$user->username]['access_key']     = $user->access_key;
-//        $this->users_json[$user->username]['filesize_limit'] = $user->filesize_limit;
-//        $this->users_json[$user->username]['uploads']        = $user->uploads;
-//        $this->users_json[$user->username]['enabled']        = $user->enabled;
-//
-//        $this->save();
-//
-//    }
-
   // this just saves the json data to the fime.
-  function save()
-  {
+  function save() {
 
     file_put_contents(__DIR__ . '/../files/users.json', json_encode($this->users_json, JSON_PRETTY_PRINT));
 
@@ -128,108 +95,53 @@ class userHandler
   }
 
   // return a randomly generated key. upper-alpha-numeric
-  private function generateKey()
-  {
+  private function generateKey() {
 
     $legnth = 6;
     $set = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
     return substr(str_shuffle($set), 0, $legnth);
-
-
-  }
-
-  // return the array of users.
-  function getUsers()
-  {
-
-    return $this->users;
-
   }
 
   // returns the json array of users.
-  function getUsersAsJson()
-  {
-
-
+  function getUsersAsJson() {
     return $this->users_json;
-
   }
 
   // delete a user by his/her username.
-  function deleteUser($username)
-  {
-
+  function deleteUser($username) {
     if ($this->isUser($username)) {
-
-      unset($this->users_json[$username]);
-
-      $this->save();
-
-    }
-
-  }
-
-  // change key to given key for given user
-  function changeKey($username, $newkey)
-  {
-
-    if ($this->isUser($username)) {
-
-      $user = $this->getUser($username);
-
-      $user->access_key = $newkey;
-
-      $this->saveUser($user);
-
-    } else {
-
-      # not a user
-
-    }
-
-  }
-
-  // generate a new key for the given user
-  function newKey($username)
-  {
-
-    if ($this->isUser($username)) {
-
-      $user = $this->getUser($username);
-
-      $user->access_key = $this->generateKey();
-
-      $this->saveUser($user);
+      $this->db->userDelete($username);
     }
 
   }
 
   /**
-   * Check if the given key is valid
+   * Change the users access key
    *
-   * @param $key
-   * @return boolean
+   * @param $username
+   *
    */
-  function isValidKey($key) {
-    return $this->db->keyCheck($key);
-  }
-
-  // return the user associated to the username
-  function getUser($username) {
+  function newKey($username) {
     if ($this->isUser($username)) {
+      $access_key = $this->generateKey();
+      $this->db->userSetKey($username, $access_key);
     }
+
   }
 
   function isUser($username) {
     return $this->db->userCheck($username);
   }
 
-  // return the user that has the given key.
+  /**
+   * Return the userdata for the user who's key was supplied
+   *
+   * @param $key
+   * @return string
+   */
   function getUserByKey($key) {
-    if ($this->isValidKey($key)) {
-      return $this->db->keyGetUser($key);
-    }
+    return $this->db->keyGetUser($key);
   }
 
   function generateJson($username) {
@@ -263,8 +175,6 @@ class userHandler
     if ($this->isUser($username)) {
 
     } else {
-
-      #not a user
 
     }
 

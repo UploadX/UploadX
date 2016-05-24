@@ -48,6 +48,7 @@ Temporary Items
 
 # Config files
 lib/config.php
+lib/config.php.save
 
 # IDE files
 .idea/
@@ -56,4 +57,11 @@ lib/config.php
 uploads/
 access_log
 error_log
+php_error
 *.sh
+
+# Legacy
+lib/files/users.json
+lib/files/settings.json
+lib/files/files.json
+lib/files/*.bk

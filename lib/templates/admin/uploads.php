@@ -57,7 +57,7 @@
 //
 //            $uploads = $new_uploads;
 //
-            echo("<h3 class='center_text'>Showing uploads for user \"<u>$user</u>\"</h3>");
+            echo("<h3 class='center_text'>Showing uploads for user \"<i>$user</i>\"</h3>");
             $uploads = $this->db->uploadListUser($user);
 
           }
@@ -88,10 +88,10 @@
         </tr>
         <?php
           foreach ($uploads as $data) {
+            $link = $this->base_url . "/" .$data['file_id'];
             ?>
-
           <tr>
-            <td><?= $data['file_id']; ?></td>
+            <td><a href="<?= $link; ?>"><?= $data['file_id']; ?></a></td>
             <td><?= $data['uploader_id']; ?></td>
             <td><?= $data['upload_size']; ?></td>
             <td><?= $data['uploader_ip']; ?></td>

@@ -9,71 +9,71 @@
 
 */
 
-class uploadHandler{
-    
-    protected $userHandler;
-    protected $errorHandler;
-    protected $settingsHandler;
-    protected $fileHandler;
-    
-    function __construct(){
-        
-        $this->errorHandler = new errorHandler();
-        $this->userHandler = new userHandler();
-        $this->settingsHandler = new settingsHandler();
-        $this->fileHandler = new fileHandler();
-        
-    }
-    
+class uploadHandler
+{
+
+  protected $userHandler;
+  protected $errorHandler;
+  protected $settingsHandler;
+  protected $fileHandler;
+
+  private $db;
+  function __construct()
+  {
+
+    $this->errorHandler = new errorHandler();
+    $this->userHandler = new userHandler();
+    $this->settingsHandler = new settingsHandler();
+    $this->fileHandler = new fileHandler();
+    $this->db = new mysqlHandler();
+  }
+
   //bulk is done here
-    function process(){
-        
-      if(!isset($_POST['key'])){
-        
-        $this->errorHandler->throwError('upload:nokey');
-        
-      }else{
-        
-        $key = $_POST['key'];
-        
-        if($this->userHandler->isValidKey($key)){
+  function process()
+  {
 
-          $uploader = $this->userHandler->getUserByKey($key);
-          //var_dump($uploader);
-          if(!$uploader->enabled){
+    if (!isset($_POST['key'])) {
 
-            $this->errorHandler->throwError('upload:banned');
+      $this->errorHandler->throwError('upload:nokey');
 
-          }else{
+    } else {
 
-             if(in_array(pathinfo($_FILES['file']['tmp_name'] . $_FILES['file']['name'], PATHINFO_EXTENSION), $this->settingsHandler->getSettings()['security']['disallowed_files'])){
+      $key = $_POST['key'];
 
-                $this->errorHandler->throwError('upload:badextension');
+      if ($this->db->keyCheck($key)) {
 
-          }else{
-               
-               $this->fileHandler->saveFile($_FILES['file'], $uploader);
-               
-             }
+        $uploader = $this->db->keyGetUser($key);
+        $status = $uploader['enabled'];
+
+        if ($status != '1') {
+          $this->errorHandler->throwError('upload:banned');
+        } else {
+          $disallowed_files = $this->settingsHandler->getSettings()['security']['disallowed_files'];
+          if (in_array(pathinfo($_FILES['file']['tmp_name'] . $_FILES['file']['name'], PATHINFO_EXTENSION), $disallowed_files)) {
+            $this->errorHandler->throwError('upload:badextension');
+          } else {
+            ini_set("display_errors", 0);
+            $this->fileHandler->saveFile($_FILES['file'], $uploader);
           }
-          }else{
-            $this->errorHandler->throwError('upload:wrongkey');
-          }
-        
-      }     
-        
-    }
-    
-    // true/fase function to make sure that somebody is uploading, and with the right 'settings'
-    function checkForUpload(){
-        
-        if(isset($_FILES['file'])){
-            return true;
-        }else{
-            return false;
         }
-        
+      } else {
+        $this->errorHandler->throwError('upload:wrongkey');
+      }
+
     }
+
+  }
+
+  // true/fase function to make sure that somebody is uploading, and with the right 'settings'
+  function checkForUpload()
+  {
+    if (isset($_FILES['file'])) {
+      return true;
+    } else {
+      return false;
+    }
+
+  }
 
 }
 

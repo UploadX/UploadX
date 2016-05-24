@@ -28,115 +28,79 @@
         Show IP: <input type="checkbox" name="show_ip"  <?php if ($this->settingsHandler->getSettings()['viewer']['show_ip']) echo('Checked');?>>
           <br>
           <h3>Theme</h3>
-          
-              <?php  
-              
+              <?php
               $files = scandir($GLOBALS['dir'] . "/res/css/themes/");
-              
               unset($files[0]);
               unset($files[1]);
-              
               foreach($files as $file) {
-                  
                   $checked = '';
-                  
                   if ($file ==  $this->settingsHandler->getSettings()['viewer']['theme'])
                       $checked = 'checked';
-                  
                   echo "<input type='radio' name='theme' value='$file' $checked> $file </option><br>";
-                  
               }
-              
               ?>
-          
-		  
-		  
-		  
-		  <br><br>
-		  <h2 class="animated fadeInUp">Config</h2>
-        <h3>Files</h3>
-        Save location: <input name='save_location' size="10" type="text" value="<?php echo($this->settingsHandler->getSettings()['security']['storage_folder']); ?>">
-		  
-		
-		  
+        <br><br>
+        <h2 class="animated fadeInUp">Config</h2>
+          <h3>Files</h3>
+          Save location: <input name='save_location' size="50" type="text" value="<?php echo($this->settingsHandler->getSettings()['uploads']['location']); ?>">
+          <br><br>
+          <h3>Uploads</h3>
+          ID generator legnth: <input name='generator_legnth' size="4" type="number"  maxlength="10" value="<?php echo($this->settingsHandler->getSettings()['generator']['characters']); ?>">
+          <br><br>
+          <input type="submit" value="Save changes">
+          <input type="hidden" name="action" value="changesettings">
+          <br>
         <br>
-		  
-		  
-		 <br> 
-        <h3>Uploads</h3>
-        ID generator legnth: <input name='generator_legnth' size="4" type="number"  maxlength="10" value="<?php echo($this->settingsHandler->getSettings()['generator']['characters']); ?>">
-        <br>
-		  
-		  
-		  <br>
-        <input type="submit" value="Save changes">
-        <input type="hidden" name="action" value="changesettings">
-        <br>
-		  <br>
-      </form>
-		
-<form action="./" method="post">
-	<input type="submit" value="Fix files from directory move">
-	<input type="hidden" name="action" value="fixfiles">
-	
-	</form>
-		<br><br>
-		  <h2 class="animated fadeInUp">Banned file types</h2> 
-		  <table class="animated fadeIn" style="width:10%">
-		<tr>
-		<th>Extension</th>
-		<th>Action</th>
-		</tr>
-		
-		  <?php 
-        foreach($this->settingsHandler->getSettings()['security']['disallowed_files'] as $value){
-			?>
-			
-          <tr>
-			  <td><?php echo $value; ?></td>
-			  
-			  <td>
-			  	<form action="./" method="post">
-					
-					<input type="image" src="<?php echo $GLOBALS['home']?>/res/img/delete.png">
-					<input type="hidden" name="action" value="deleteextension">
-					<input type="hidden" name="extension" value="<?php echo $value; ?>">
-					
-				</form>
-			  
-			  </td>
-		  </tr>
-			  
-			<?php
-			
-        }
-        ?>
-			  <tr>
-			  <form method="post" action="./">
-				  <td>		  
-				  <input type="text" placeholder="extension" name="extension">
-				  </td>
-				  <td>
-				  <input type="image" src="<?php echo $GLOBALS['home']?>/res/img/add.png">
-				  </td>
-			  
-				  <input type="hidden" name="action" value="addextension">
-			  </form>
-			  </tr>
-			  
-			  </table>
-        
-      
-    </div>
-    
-    <br><br>
-  
-    <div id="settings_changepassword">
-      
-      <h2 class="animated fadeInUp">Change password</h2>
-      
-      <form action="./" method="post" class="animated fadeIn">
+        </form>
 
+        <br><br>
+          <h2 class="animated fadeInUp">Banned file types</h2>
+          <table class="animated fadeIn" style="width:10%">
+        <tr>
+        <th>Extension</th>
+        <th>Action</th>
+        </tr>
+		
+        <?php
+          $exts = $this->settingsHandler->getSettings()['security']['disallowed_files'];
+          foreach($exts as $value){
+        ?>
+        <tr>
+          <td><?php echo $value; ?></td>
+
+          <td>
+            <form action="./" method="post">
+
+            <input type="image" src="<?php echo $GLOBALS['home']?>/res/img/delete.png">
+            <input type="hidden" name="action" value="deleteextension">
+            <input type="hidden" name="extension" value="<?php echo $value; ?>">
+
+          </form>
+
+          </td>
+        </tr>
+
+        <?php
+          }
+        ?>
+        <tr>
+          <form method="post" action="./">
+            <td>
+            <input type="text" placeholder="extension" name="extension">
+            </td>
+            <td>
+            <input type="image" src="<?php echo $GLOBALS['home']?>/res/img/add.png">
+            </td>
+
+            <input type="hidden" name="action" value="addextension">
+          </form>
+        </tr>
+      </table>
+    </div>
+    <br><br>
+    <div id="settings_changepassword">
+      <h2 class="animated fadeInUp">Change password</h2>
+      <form action="./" method="post" class="animated fadeIn">
       <input type="password" placeholder="Old password" name="old_password" required>
       <br>
       <br>

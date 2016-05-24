@@ -24,7 +24,7 @@
     <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
     
     <?php
-    if(isset($id)){
+        if(isset($id)){
     ?>
         
     <meta property="og:site_name" content="UploadX">
@@ -34,7 +34,7 @@
     <meta property="og:image" content="<?php echo $src; ?>" />
     
     <?php
-    }
+        }
     ?>
     
 </head>
