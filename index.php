@@ -10,19 +10,24 @@ include_once __DIR__.'/lib/errors/applicationError.php';
 
 include_once __DIR__.'/lib/errors/sanityChecker.php';
 
-include_once __DIR__.'/lib/mysqlHandler.php';
+include_once __DIR__ . '/lib/mysql/mysqlHandler.php';
 
 include_once __DIR__.'/lib/users/userHandler.php';
 include_once __DIR__.'/lib/users/user.php';
 
 include_once __DIR__.'/lib/settings/settingsHandler.php';
+include_once __DIR__.'/lib/fileHandler.php';
 
 include_once __DIR__.'/lib/uploadHandler.php';
 
-include_once __DIR__.'/lib/fileHandler.php';
-
 include_once __DIR__.'/lib/web/webCore.php';
 
+if(!file_exists( __DIR__.'/lib/config.php')){
+  ?>
+  <h1>CONFIG ERROR!</h1>
+  <p>Config file missing! Please re-read quickstart.md on GitHub!</p>
+  <?php
+}
 include_once __DIR__.'/lib/config.php';
 
 // logic to detect http/https connection
@@ -36,15 +41,15 @@ $GLOBALS['dir'] = __DIR__ ;
 
 define('dbConfig', $config['mysql']);
 define('__UPLOAD__', $config['location']);
+define('ROOTPATH', __DIR__);
 
 // create the handlers
 $errorHandler = new errorHandler();
 $userHandler = new userHandler();
-$settingsHandler = new settingsHandler();
-$uploadHandler = new uploadHandler();
-$fileHandler = new fileHandler();
+
 $webCore = new webCore();
 $sanityChecker = new SanityChecker();
+//$settingsHandler = new settingsHandler();
 
 $sanityChecker->checkFiles();
 $sanityChecker->checkSettings();
@@ -70,6 +75,14 @@ var_dump($_FILES);
   
 }
 
+if(__UPLOAD__ == '/full/path/to/your/images/upload-base-directory/'){
+  ?>
+<h1>CONFIG ERROR!</h1>
+<p>You didn't configure your upload path! Please re-read quickstart.md on GitHub!></p>
+  <?php
+  exit();
+}
+
 /* Testing Area */
 if($debug){
 
@@ -82,23 +95,21 @@ if($debug){
 
 // somebody is uploading, so we send it to the upload handler
 if (!empty($_FILES)){
-    
+    $uploadHandler = new uploadHandler();
     if($uploadHandler->checkForUpload()){
         $uploadHandler->process();
-        
     }else{
       $errorHandler->throwError("upload:wrongfile");
     }
-    
 }
 // they're accessing a file, so we go to the file Handler.
 
 else if (!empty($_GET)){
-
-  // viewing file
-  if (!empty($_GET['id'])){
+  if (!empty($_GET['id'])){// viewing file
     
     // valid file
+    $fileHandler = new fileHandler();
+
     if ($fileHandler->isValidId($_GET['id'])){
       if(empty($_GET['action'])){
         $webCore->buildPreview();
@@ -114,27 +125,21 @@ else if (!empty($_GET)){
     if (!empty($_POST)){
       $webCore->process();
     }
-    
-    
     else if(empty($_GET['page']) ){
-      
       $webCore->buildPage('home', '');
-      
     }else{
-      
       $webCore->buildPage($_GET['page'], $_GET['opt']);
-      
     }
-    
   }else{
     echo "404";
   }  
 }
 
 else {
-$theme       = $settingsHandler->getSettings()['viewer']['theme'];
-include_once "./lib/templates/admin/default_header.php";
-include_once "./lib/templates/admin/homepage.php";
+  $settingsHandler = new settingsHandler();
+  $theme       = $settingsHandler->getSettings()['viewer']['theme'];
+  include_once "./lib/templates/admin/default_header.php";
+  include_once "./lib/templates/admin/homepage.php";
   
 }
 

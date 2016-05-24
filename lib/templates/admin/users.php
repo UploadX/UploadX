@@ -35,75 +35,73 @@
 	 <th>Delete</th>
 	 <th>Custom uploader JSON</th>
   </tr>
-    <?php 
-      foreach ($this->userHandler->getUsers() as $user){
-        
-        ?>
-    
-    <tr>
+    <?php
+			$db = new mysqlHandler();
+			$users = $db->usersGet(0);
+			foreach ($users as $user) {
+				$uploads = $db->userUploadCount($user['username']);
+		?>
+		<tr>
+		</tr>
+		<tr>
 
-      <td><?php echo "<a href='". $GLOBALS['home'] . 'admin/uploads/' . $user->username ."' alt='View Uploads from user'>" . $user->username . '</a>'; ?></td>
-      <td>
-		  <form action="./" method="post">
-			  <input type="text" name="key" value="<?php echo $user->access_key; ?>">
-			  <input type="hidden" name="action" value="changekey">
-			  <input type="hidden" name="username" value="<?php echo $user->username; ?>">
-		  </form>&nbsp;&nbsp;
-		  
-		  <form action="./" method="post">
-				<input type="image" src="<?php echo $GLOBALS['home']?>/res/img/refresh.png" >
-				<input type="hidden" name="action" value="newkey">
-				<input type="hidden" name="username" value="<?php echo $user->username; ?>">
-		  </form>
-			  
-	  </td>
-      <td><?php echo $user->uploads; ?></td>
-      <td>
-		  <form action="./" method="post">
-		
-			<input onChange="this.form.submit()" type="checkbox" name="enabled" <?php if($user->enabled) echo 'checked'  ?>> Enable account
-			<input type="hidden" name="action" value="enable">
-			<input type="hidden" name="username" value="<?php echo $user->username; ?>">
-			
-		
-		</form>
-		</td>
-      <td>
-        <form action="./" method="post">
-        
-          <input type="submit" value="Delete">
-          <input type="hidden" name="action" value="deleteuser">
-          <input type="hidden" name="username" value="<?php echo $user->username; ?>">
-			
-			&nbsp;&nbsp;&nbsp;
-		  </form>
-			<form action="./" method="post">
-			
-				<input type="submit" value="Delete Uploads">
-				<input type="hidden" name="action" value="deleteuploads"> 
-			
-			</form>
-			
-          
-        
-      </td>
-		<td>
-		<form action="./" method="post">
-		
-			<input type="image" src="<?php echo $GLOBALS['home']?>/res/img/code.png">
-			<input type="hidden" name="action" value="generatejson">
-			<input type="hidden" name="username" value="<?php echo $user->username; ?>">
-		
+			<td><?php echo "<a href='" . $GLOBALS['home'] . 'admin/uploads/' . $user['username'] . "' alt='View Uploads from user'>" . $user['username'] . '</a>'; ?></td>
+			<td>
+				<form action="./" method="post">
+					<input type="text" name="key" value="<?= $user['access_key']; ?>">
+					<input type="hidden" name="action" value="changekey">
+					<input type="hidden" name="username" value="<?= $user['username']; ?>">
+				</form>
+
+				<form action="./" method="post">
+					<input type="image" src="<?php echo $GLOBALS['home'] ?>/res/img/refresh.png">
+					<input type="hidden" name="action" value="newkey">
+					<input type="hidden" name="username" value="<?= $user['username']; ?>">
+				</form>
+
+			</td>
+			<td><?php echo $uploads; ?></td>
+			<td>
+				<form action="./" method="post">
+
+					<input onChange="this.form.submit()" type="checkbox"
+								 name="enabled" <?php if ($user['enabled']) echo 'checked' ?>> Enable account
+					<input type="hidden" name="action" value="enable">
+					<input type="hidden" name="username" value="<?= $user['username']; ?>">
+
+
+				</form>
+			</td>
+			<td>
+				<form action="./" method="post">
+
+					<input type="submit" value="Delete">
+					<input type="hidden" name="action" value="deleteuser">
+					<input type="hidden" name="username" value="<?= $user['username'] ?>">
+
+					&nbsp;&nbsp;&nbsp;
+				</form>
+				<form action="./" method="post">
+
+					<input type="submit" value="Delete Uploads">
+					<input type="hidden" name="action" value="deleteuploads">
+
+				</form>
+
+
+			</td>
+			<td>
+				<form action="./" method="post">
+
+					<input type="image" src="<?php echo $GLOBALS['home'] ?>/res/img/code.png">
+					<input type="hidden" name="action" value="generatejson">
+					<input type="hidden" name="username" value="<?php echo $user->username; ?>">
+					<?php
+					}
+			?>
 		</form>
 		</td>
 	  </tr>
-		
-      <?php
-        
-      }
-    
-    ?>
-    
 </table>
   
 </div>

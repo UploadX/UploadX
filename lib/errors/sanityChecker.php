@@ -9,7 +9,7 @@ class sanityChecker{
 	public function __construct(){
 		
 		$this->errorHandler = new errorHandler();
-        $this->settingsHandler = new settingsHandler();
+		$this->settingsHandler = new settingsHandler();
 		
 		//load up the files to be checked
 		$fileList['/errors/'] = [
@@ -40,24 +40,20 @@ class sanityChecker{
 		
 	}
     
-    public function checkSettings(){
-        
-        if($this->settingsHandler->getSettings()['security']['password_hash'] === ""){
-            
-            $this->settingsHandler->changeSetting('security', 'password_hash', password_hash('password', PASSWORD_DEFAULT));
-            echo "password changed to 'password'<br>";
-            
-        } 
-        
-        if(!isset($this->settingsHandler->getSettings()['viewer']['theme'])){
-      
-        $this->settingsHandler->changeSetting('viewer', 'theme', 'red.css');
-        echo "Theme was unset, set to default 'red'. <br>";
-      
-      }
-        
-        
-    }
+	public function checkSettings(){
+		if($this->settingsHandler->getSettings()['security']['password_hash'] === ""){
+
+			$this->settingsHandler->changeSetting('security', 'password_hash', password_hash('password', PASSWORD_DEFAULT));
+			echo "password changed to 'password'<br>";
+
+		}
+		if(!isset($this->settingsHandler->getSettings()['viewer']['theme'])) {
+
+			$this->settingsHandler->changeSetting('viewer', 'theme', 'red.css');
+			echo "Theme was unset, set to default 'red'. <br>";
+
+		}
+	}
 	
 	public function checkFiles(){
 		// false = quiet

@@ -53,6 +53,7 @@ lib/config.php
 .idea/
 
 # Misc
+uploads/
 access_log
 error_log
 *.sh

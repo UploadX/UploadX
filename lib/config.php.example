@@ -3,9 +3,10 @@
       /* MySQL Configuration - End User NEEDS to configure this */
       'mysql' => array(
         'host'     => '127.0.0.1',
-        'user'     => 'root',
+        'user'     => 'uploadx',
         'pass'     => 'password',
-        'database' => 'uploadx'
+        'database' => 'uploadx',
       ),
-      'location' => '/full/path/to/your/images', //Set to the full path to the image directory
+      //Set to the full path to the upload base directory with a trailing /
+      'location' => '/full/path/to/your/images/upload-base-directory/',
     );

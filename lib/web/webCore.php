@@ -156,7 +156,7 @@ class webCore
         
 		else if ($action == 'generatejson'){
 			
-			$this->userHandler->generateJson($_POST['username']);
+//			$this->userHandler->generateJson($_POST['username']);
 			
 		}
 		

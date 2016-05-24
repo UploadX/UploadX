@@ -1,1 +1,8 @@
-{}
+{
+    "matt": {
+        "access_key": "JK85GN",
+        "filesize_limit": "Unlimited",
+        "uploads": 25,
+        "enabled": true
+    }
+}

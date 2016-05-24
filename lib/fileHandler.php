@@ -26,20 +26,25 @@ class fileHandler{
   function saveFile($file, $uploader){
     
     // set all the interesting data
+    $username = $uploader->username;
     $file_name = $file['name'];
     $file_temp = $file['tmp_name'];
     $ext = pathinfo($file_temp . $file_name, PATHINFO_EXTENSION);
     $file_id = $this->generateFileName();
     $new_file_name = $file_id . '.' . $ext;
-    $new_file_location = __UPLOAD__ . $new_file_name;
+    $new_file_location = __UPLOAD__ . $username .'/' . $new_file_name;
     $old_name = $file_name;
 	  $time = date("Y-m-d h:ia");
 
     
     // create the upload directory if it doesn't exist
-    if(!file_exists(__DIR__ . $this->settingsHandler->getSettings()['security']['storage_folder'])){
-      mkdir(__DIR__ . $this->settingsHandler->getSettings()['security']['storage_folder']);
+    if(!file_exists(__UPLOAD__)){
+      mkdir(__UPLOAD__);
     }
+    if (!file_exists(__UPLOAD__ . $username)){
+      mkdir(__UPLOAD__ . $username);
+    }
+
     // attempt to move the file
     if(move_uploaded_file($file_temp, $new_file_location)){
       
@@ -71,7 +76,7 @@ class fileHandler{
       $uploader_ip = $_SERVER['REMOTE_ADDR'];
       $fsize = $this->filesizeConvert(filesize($new_file_location));
 
-      if($this->db->insert($new_file_name, $file_id, $old_name, $file_type, $uploader->username, $uploader_ip, $time, $fsize, $delete)){
+      if($this->db->uploadAdd($new_file_name, $file_id, $old_name, $file_type, $uploader->username, $uploader_ip, $time, $fsize, $delete)){
         #$this->save();
         header("Location: ./$file_id");
       }else{
@@ -80,7 +85,6 @@ class fileHandler{
     }else{
       $this->errorHandler->throwError('upload:error');
     }
-    
   }
   
   function deleteFile($id){
@@ -109,7 +113,8 @@ class fileHandler{
 //      $type = $id_data['type'];
 //
       $filename = $id_data['file_name'];
-      $location = __UPLOAD__.$filename;
+      $username = $id_data['uploader_id'];
+      $location = __UPLOAD__ . $username . '/'.$filename;
       $size = $id_data['upload_size'];
       $type = $id_data['file_type'];
 
@@ -131,7 +136,7 @@ class fileHandler{
   }
   
   public function isValidId($id){
-    if ($this->db->checkID($id)) {
+    if ($this->db->checkUploadID($id)) {
       return true;
     } else {
       return false;
@@ -139,7 +144,7 @@ class fileHandler{
   }
   
   function getFileData($id){
-    if($this->db->checkID($id)) {
+    if($this->db->checkUploadID($id)) {
       $this->db->getFileData($id);
     }else if($this->isValidId($id)){
       
