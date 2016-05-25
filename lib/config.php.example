@@ -24,10 +24,10 @@
          * You can modify the session value, but do not modify any others!
         */
         'security' => array(
-            'password_hash' => '$2y$10$xDD9lIkkICNh2xPGv208g.Tx3Wb5H14SPk2jFd87id95uLMHTg2l2',
-            'last_changed' => '02-03-16',
+            'password_hash' => '',
+            'last_changed' => '',
             'session' => 'uploadx_admin',
-            'disallowed_files' => array('dmv', 'exe', 'psd', ),
+            'disallowed_files' => array(),
         ),
 
         /* Viewer Config. Do NOT Touch */
