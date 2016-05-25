@@ -88,7 +88,7 @@
         </tr>
         <?php
           foreach ($uploads as $data) {
-            $link = $this->base_url . "/" .$data['file_id'];
+            $link = $this->base_url . $data['file_id'];
             ?>
           <tr>
             <td><a href="<?= $link; ?>"><?= $data['file_id']; ?></a></td>
