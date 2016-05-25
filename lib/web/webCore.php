@@ -186,6 +186,8 @@ class webCore
       } else if ($page == 'logout') {
 
         $_SESSION[$this->session] = false;
+        session_unset();
+        session_destroy();
         header("Location: ./");
 
       }
