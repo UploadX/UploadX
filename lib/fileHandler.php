@@ -40,10 +40,10 @@ class fileHandler
     $user_ip = $_SERVER['REMOTE_ADDR'];
 
     // create the upload directory if it doesn't exist
-    if (!dir_exists($this->base_dir)) {
+    if (!file_exists($this->base_dir)) {
       mkdir($this->base_dir);
     }
-    if (!dir_exists($this->base_dir . $username)) {
+    if (!file_exists($this->base_dir . $username)) {
       mkdir($this->base_dir . $username);
     }
 
@@ -136,9 +136,6 @@ class fileHandler
   function getFileData($id) {
     if ($this->db->uploadCheckID($id)) {
       $this->db->uploadGetData($id);
-    } else if ($this->isValidId($id)) {
-
-      return $this->files[$id];
     } else {
       return null;
     }
@@ -283,9 +280,9 @@ class fileHandler
         "VALUE" => 1
       ),
     );
-
+    $result = null;
     foreach ($arBytes as $arItem) {
-      $result = null;
+
       if ($bytes >= $arItem["VALUE"]) {
         $result = $bytes / $arItem["VALUE"];
         $result = str_replace(".", ".", strval(round($result, 2))) . " " . $arItem["UNIT"];
@@ -297,16 +294,15 @@ class fileHandler
 
 //  private function save() {
 //
-//    file_put_contents(__DIR__ . '/files/files.json', json_encode($this->files, JSON_PRETTY_PRINT));
-//    $this->files = json_decode(file_get_contents(__DIR__ . '/files/files.json'), true);
+////    file_put_contents(__DIR__ . '/files/files.json', json_encode($this->files, JSON_PRETTY_PRINT));
+////    $this->files = json_decode(file_get_contents(__DIR__ . '/files/files.json'), true);
 //
 //  }
+
+//  function getJsonData() {
 //
-  function getJsonData()
-  {
-
-    return $this->files;
-
-  }
+//    return $this->files;
+//
+//  }
 
 }
