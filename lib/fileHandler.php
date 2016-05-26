@@ -31,6 +31,10 @@ class fileHandler
     $username = $uploader['user_id'];
     $file_name = $file['name'];
     $file_temp = $file['tmp_name'];
+    if (in_array(mime_content_type($file_temp), $this->settingsHandler->getSettings()['security']['disallowed_mime_types'])) {
+      unlink($file_temp);
+      http_response_code(403);
+    }
     $ext = pathinfo($file_temp . $file_name, PATHINFO_EXTENSION);
     $file_id = $this->generateFileName();
     $new_file_name = $file_id . '.' . $ext;

@@ -49,6 +49,7 @@ class uploadHandler
           $this->errorHandler->throwError('upload:banned');
         } else {
           $disallowed_files = $this->settingsHandler->getSettings()['security']['disallowed_files'];
+          $disallowed_mimes = $this->settingsHandler->getSettings()['security']['disallowed_mime_types'];
           if (in_array(pathinfo($_FILES['file']['tmp_name'] . $_FILES['file']['name'], PATHINFO_EXTENSION), $disallowed_files)) {
             $this->errorHandler->throwError('upload:badextension');
           } else {

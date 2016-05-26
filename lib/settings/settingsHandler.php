@@ -121,18 +121,18 @@ class settingsHandler {
       } else if (($config_section == 'limits') && (is_int($config_item))) {
         $item = "'$config_item' => $config_value,";
 
-      } else if (($config_section == 'security') && ($config_item == 'disallowed_files')) {
-        $extensions = $this->getSettings()['security']['disallowed_files'];
-        $disallowed_exts = '';
+      } else if (($config_section == 'security') && (($config_item == 'disallowed_files') || ($config_item == 'disallowed_mime_types'))) {
+        $current = $this->getSettings()['security'][$config_item];
+        $disallowed = '';
 
-        foreach ($extensions as $ext) {
-          if (sizeof($disallowed_exts) == 0) {
-            $disallowed_exts = "'$ext'";
+        foreach ($current as $disallowed_item) {
+          if (sizeof($disallowed) == 0) {
+            $disallowed = "'$disallowed_item'";
           } else {
-            $disallowed_exts = "'$ext', $disallowed_exts";
+            $disallowed = "'$disallowed_item', $disallowed";
           }
         }
-        $item = "'disallowed_files' => array($disallowed_exts),";
+        $item = "'$config_item' => array($disallowed),";
       } else {
         $item = "'$config_item' => '$config_value',";
       }
@@ -246,7 +246,7 @@ class settingsHandler {
    *
    * @param $ext
    */
-	function addExtension($ext){
+	public function addExtension($ext){
 		array_push($this->settings['security']['disallowed_files'], $ext);
     var_dump($this->getSettings()['security']['disallowed_files']);
 		$this->configSave();
@@ -257,14 +257,72 @@ class settingsHandler {
    *
    * @param $ext
    */
-	function deleteExtension($ext){
+	public function deleteExtension($ext){
 		
 		$index = array_search($ext, $this->settings['security']['disallowed_files']);
     unset($this->settings['security']['disallowed_files'][$index]);
     $this->configSave();
 		
 	}
-    
-}
 
-?>
+  /**
+   * Adds a MIME type to the blacklist
+   * @param $mime
+   */
+  public function addMIME($mime) {
+    array_push($this->settings['security']['disallowed_mime_types'], $mime);
+    var_dump($this->getSettings()['security']['disallowed_files']);
+    $this->configSave();
+  }
+
+  /**
+   * Removes a blacklisted MIME type
+   * @param $mime
+   */
+  public function deleteMIME($mime) {
+    $index = array_search($mime, $this->settings['security']['disallowed_mime_types']);
+    unset($this->settings['security']['disallowed_files'][$index]);
+    $this->configSave();
+  }
+
+  /**
+   * Creates a new config section
+   *
+   * @param $setting
+   * @param string $setting_parent
+   */
+  private function createNewSetting($setting, $setting_parent = '') {
+    if ($setting_parent != '') {
+      if (($setting_parent == 'security') && ($setting == 'disallowed_mime_types')) {
+        $this->settings[$setting_parent][$setting] = array();
+      }
+    }
+    $this->configSave();
+  }
+
+
+  /**
+   * @param $setting
+   * @param string $setting_parent
+   * @return mixed
+   */
+  public function getSetting($setting, $setting_parent = '') {
+    if ($setting_parent != '') {
+      if(!array_key_exists($setting_parent, $this->settings)) {
+        // Return false for now, maybe also throw an error?
+        die("Need to make a better error!");
+      }
+      else if (!array_key_exists($setting, $this->settings[$setting_parent])) {
+        $this->createNewSetting($setting, $setting_parent);
+      }
+
+      return $this->settings[$setting_parent][$setting];
+    } else {
+      if (!array_key_exists($setting_parent[$setting], $this->settings)) {
+        $this->createNewSetting($setting);
+      }
+
+      return $this->settings[$setting];
+    }
+  }
+}

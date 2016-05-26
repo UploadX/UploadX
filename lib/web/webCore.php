@@ -52,6 +52,12 @@ class webCore
 
       $this->settingsHandler->deleteExtension($_POST['extension']);
       $this->refreshPage();
+    } else if ($action == 'addmime') {
+      $this->settingsHandler->addMIME($_POST['mime']);
+      $this->refreshPage();
+    } else if ($action == 'deletemime') {
+      $this->settingsHandler->deleteMIME($_POST['mime']);
+      $this->refreshPage();
     } else if ($action == 'changekey') {
 
       $this->userHandler->changeKey($_POST['username'], $_POST['key']);

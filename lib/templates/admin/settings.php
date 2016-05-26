@@ -54,26 +54,26 @@
         </form>
 
         <br><br>
-          <h2 class="animated fadeInUp">Banned file types</h2>
-          <table class="animated fadeIn" style="width:10%">
+          <h2 class="animated fadeInUp">Banned File Extensions</h2>
+        <table class="animated fadeIn" style="width:10%">
         <tr>
-        <th>Extension</th>
-        <th>Action</th>
+          <th style="width: 50%;">Extension</th>
+          <th style="width: 50%;">Action</th>
         </tr>
 		
         <?php
           $exts = $this->settingsHandler->getSettings()['security']['disallowed_files'];
-          foreach($exts as $value){
+          foreach($exts as $ext){
         ?>
         <tr>
-          <td><?php echo $value; ?></td>
+          <td><?php echo $ext; ?></td>
 
           <td>
             <form action="./" method="post">
 
             <input type="image" src="<?php echo $GLOBALS['home']?>/res/img/delete.png">
             <input type="hidden" name="action" value="deleteextension">
-            <input type="hidden" name="extension" value="<?php echo $value; ?>">
+            <input type="hidden" name="extension" value="<?php echo $ext; ?>">
 
           </form>
 
@@ -86,13 +86,50 @@
         <tr>
           <form method="post" action="./">
             <td>
-            <input type="text" placeholder="extension" name="extension">
+              <input type="text" placeholder="extension" name="extension">
+            </td>
+            <td>
+              <input type="image" src="<?php echo $GLOBALS['home']?>/res/img/add.png">
+            </td>
+
+            <input type="hidden" name="action" value="addextension">
+          </form>
+        </tr>
+      </table>
+      <br/>
+      <h2 class="animated fadeInUp">Banned MIME Types (WIP)</h2>
+      <table class="animated fadeIn" style="width:10%">
+        <tr>
+          <th style="width:50%;">Mime Type</th>
+          <th>Action</th>
+        </tr>
+        <?php
+          $mimes = $this->settingsHandler->getSetting('disallowed_mime_types','security');
+          foreach($mimes as $mime) {
+        ?>
+        <tr>
+          <td><?php echo $mime; ?></td>
+          <td>
+            <form action="./" method="post">
+              <input type="image" src="<?php echo $GLOBALS['home']?>/res/img/delete.png">
+              <input type="hidden" name="action" value="deletemime">
+              <input type="hidden" name="mime" value="<?php echo $mime; ?>">
+            </form>
+          </td>
+        </tr>
+        <?php
+          }
+        ?>
+        <tr>
+          <form method="post" action="./">
+            <td>
+            <input type="text" placeholder="mime/type" name="mime">
             </td>
             <td>
             <input type="image" src="<?php echo $GLOBALS['home']?>/res/img/add.png">
             </td>
 
-            <input type="hidden" name="action" value="addextension">
+            <input type="hidden" name="action" value="addmime">
           </form>
         </tr>
       </table>
