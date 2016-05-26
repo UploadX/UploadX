@@ -217,14 +217,12 @@ class mysqlHandler
   public function uploadDelete($id) {
     $this->checkConn();
     $id = $this->cleanVar($id);
-    if ($this->uploadCheckID($id)) {
-      $query = "DELETE FROM uploadx_files WHERE file_id = '$id'";
+    $query = "DELETE FROM uploadx_files WHERE file_id = '$id'";
 
-      if (!$result = $this->checkQuery($query)) {
-        $this->errorFatal("uploadDelete", $query);
-      } else {
-        return true;
-      }
+    if (!$result = $this->checkQuery($query)) {
+      $this->errorFatal("uploadDelete", $query);
+    } else {
+      return true;
     }
     return false;
   }

@@ -78,12 +78,13 @@ class fileHandler
   function deleteFile($id) {
 
     if ($this->isValidId($id)) {
-      if ($this->db->uploadDelete($id)) {
-        $id_data = $this->db->uploadGetData($id);
-        $user_id = $id_data['uploader_id'];
-        $file = $id_data['file_name'];
+      $id_data = $this->db->uploadGetData($id);
 
-        $full_path = $this->base_dir . "$user_id/$file";
+      $user_id = $id_data['uploader_id'];
+      $file = $id_data['file_name'];
+
+      $full_path = $this->base_dir . "$user_id/$file";
+      if ($this->db->uploadDelete($id)) {
         unlink($full_path);
       }
     }
