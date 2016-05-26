@@ -181,8 +181,7 @@ class fileHandler
 
   }
 
-  function getMIME($filename)
-  {
+  function getMIMELegacy($filename) {
 
     $mime_types = array(
 
@@ -241,18 +240,46 @@ class fileHandler
     );
 
     $ext = strtolower(array_pop(explode('.', $filename)));
+
     if (array_key_exists($ext, $mime_types)) {
       return $mime_types[$ext];
-    } else
-      if (function_exists('finfo_open')) {
-        $finfo = finfo_open(FILEINFO_MIME);
-        $mimetype = finfo_file($finfo, $filename);
-        finfo_close($finfo);
-        return $mimetype;
-      } else {
-        return 'application/octet-stream';
-      }
+    } else if (function_exists('finfo_open')) {
+      $finfo = finfo_open(FILEINFO_MIME);
+      $mimetype = finfo_file($finfo, $filename);
+      finfo_close($finfo);
+      return $mimetype;
+    } else {
+      return 'application/octet-stream';
+    }
 
+  }
+
+  /**
+   * Get the MIME Type (returns text/plain for certain files or the correct mime type
+   *
+   * @param $filename
+   * @return string
+   */
+  function getMIME($filename) {
+    $info = pathinfo($filename);
+    $ext = $info['extension'];
+
+    switch ($ext) {
+      case "txt":
+      case 'text':
+      case 'htm':
+      case 'html':
+      case 'php':
+      case 'css':
+      case 'js':
+      case 'json':
+      case 'xml':
+        $mime_type = 'text/plain';
+        return $mime_type;
+        break;
+      default:
+        return mime_content_type($filename);
+    }
   }
 
   function filesizeConvert($bytes)
