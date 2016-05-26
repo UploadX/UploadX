@@ -82,10 +82,12 @@ class fileHandler
 
       $user_id = $id_data['uploader_id'];
       $file = $id_data['file_name'];
-
       $full_path = $this->base_dir . "$user_id/$file";
-      if ($this->db->uploadDelete($id)) {
-        unlink($full_path);
+
+      if (file_exists($full_path) && is_file($full_path)) {
+        if ($this->db->uploadDelete($id)) {
+          unlink($full_path);
+        }
       }
     }
   }
