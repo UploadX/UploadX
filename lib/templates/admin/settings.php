@@ -97,7 +97,7 @@
         </tr>
       </table>
       <br/>
-      <h2 class="animated fadeInUp">Banned MIME Types (WIP)</h2>
+      <h2 class="animated fadeInUp">Banned MIME Types</h2>
       <table class="animated fadeIn" style="width:10%">
         <tr>
           <th style="width:50%;">Mime Type</th>
