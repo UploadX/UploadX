@@ -190,8 +190,8 @@ class webCore
         include_once $GLOBALS['dir'] . '/lib/templates/admin/uploads.php';
 
       } else if ($page == 'logout') {
-
-        $_SESSION[$this->session] = false;
+        
+        unset($_SESSION[$this->session]);
         header("Location: ./");
 
       }
