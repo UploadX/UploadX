@@ -107,7 +107,10 @@ class fileHandler
     $username = $id_data['uploader_id'];
     $base_dir = $this->settingsHandler->getSettings()['uploads']['location'];
     $location = $base_dir . $username . '/' . $filename;
-    $size = $id_data['upload_size'];
+
+    $raw_size = filesize($location);
+//    $size = $id_data['upload_size'];
+
     $type = $id_data['file_type'];
 
     $admin_session = $this->settingsHandler->getSettings()['security']['session'];
@@ -116,7 +119,7 @@ class fileHandler
     }
 
     header("Content-type: $type");
-    header("Content-length: $size");
+    header("Content-length: $raw_size");
     header("Connection: Keep-Alive");
     header("Cache-control: public");
     header("Pragma: public");
