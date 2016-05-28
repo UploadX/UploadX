@@ -52,10 +52,9 @@ client_max_body_size 2m;
 server {
     listen 80;
     server_name your_site;
-
-	location / {
-		return 301 https://$server_name$request_uri;
-	}
+    location / {
+       return 301 https://$server_name$request_uri;
+    }
 }
 server {
     listen 443 ssl;
@@ -86,7 +85,7 @@ server {
 ### Nginx UploadX Include
 This is the actual config file that handles Nginx's rewriting.
 
-* Create the snippets/apps directory  
+* Create the snippets/apps directory
 `# mkdir -p /etc/nginx/snippets/apps` 
 * Save the snippet below as `/etc/nginx/snippets/apps/uploadx.conf`
 
