@@ -71,7 +71,7 @@ location ~ "^/([A-Za-z0-9]{4})/?(view)?" {
 ### Nginx PHP Include
 This should pretty much work out of the box. Save as `/etc/nginx/snippets/php/7.0.conf`
 
-```
+```nginx
 location ~* \.php {
     try_files $uri =404;
     fastcgi_index index.php;
@@ -81,3 +81,18 @@ location ~* \.php {
 	fastcgi_read_timeout 300;
 }
 ```
+
+## Issues?
+#### UploadX cannot write new files or settings!
+This is typically caused by your PHP-FPM (and possibly Nginx) user(s) not having the proper permissions you can fix it with one of the following:
+* Adjust the group (and maybe user) that the files are executing as in PHP-FPM's pool config for your site 
+* Add PHP-FPM's group to your list of groups for your site
+#### I'm not sure what I'm doing wrong - HELP?
+You can join our IRC channel - #UploadX on FreeNode and ask for help. If you do be sure to do the following:
+
+1. Wait patiently after asking for help with the issue
+    * We are not all using Nginx (Currently only one of us is) and we are not always around
+2. State your issue clearly and in detail
+    * If you are unsure where to look for the cause - describe the issue in detail so that we can help you find the proper log file
+    * If you have logs please upload them to a pastebin and include them with a general description of the issue
+3. Include any changes you might have made out side of this guide
