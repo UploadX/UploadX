@@ -16,15 +16,16 @@ This example **assumes** you are **not** using HTTPS! You would need to edit the
         * Ex `listen 192.168.1.2:80;` if your IP was truly 192.168.1.2
     * `server_name localhost;` with the DNS entry for your site
         * Ex `server_name my_pics.com;` if your site was my_pics.conf
-        
+    * `root /path/to/your/uploadx/site;` to the location of your UploadX site
+        * Ex `root /home/web/uploadx;` If your uploadx install is in the folder uploadx in the home directory of the user web.
+
 ```nginx
 client_max_body_size 10m;
 server {
 	listen 127.0.0.1:80;
 	server_name localhost;
 
-	error_log /home/matt/Devel/Web/UploadX-Updated/error_log;
-	root /home/matt/Devel/Web/UploadX-Updated/;
+	root /path/to/your/uploadx/site;
 
 	index index.php;
 
