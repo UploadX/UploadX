@@ -136,6 +136,7 @@ location ~* \.php {
 This is typically caused by your PHP-FPM (and possibly Nginx) user(s) not having the proper permissions you can fix it with one of the following:
 * Adjust the group (and maybe user) that the files are executing as in PHP-FPM's pool config for your site 
 * Add PHP-FPM's group to your list of groups for your site
+
 #### I'm not sure what I'm doing wrong - HELP?
 You can join our IRC channel - #UploadX on FreeNode and ask for help. If you do be sure to do the following:
 
