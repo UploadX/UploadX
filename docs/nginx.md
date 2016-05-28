@@ -7,24 +7,28 @@
 
 
 ## Nginx Configs
-### Nginx Plain-text Site Config
-This example **assumes** you are **not** using HTTPS! You would need to edit the listen line and also add the appropriate SSL config directives if you are!
-
-* The following text block should be put into your `/etc/nginx/site-avaliable` folder and symlinked to `/etc/nginx/sites-enabled/`
+### Site Configs
+* The following site config examples should be put into your `/etc/nginx/site-avaliable` folder and symlinked to `/etc/nginx/sites-enabled/`
 * Be sure to replace the following:
-    * `listen 127.0.0.1:80;` with the public IP of your machine
-        * Ex `listen 192.168.1.2:80;` if your IP was truly 192.168.1.2
-    * `server_name localhost;` with the DNS entry for your site
+    * `server_name your_site;` with the DNS entry for your site
         * Ex `server_name my_pics.com;` if your site was my_pics.conf
     * `root /path/to/your/uploadx/site;` to the location of your UploadX site
         * Ex `root /home/web/uploadx;` If your uploadx install is in the folder uploadx in the home directory of the user web.
 * The `client_max_body_size 2m;` allows Nginx to accept uploads of up to 2MB - to allow larger you will need to edit your php.ini settings as well as adjust this value
 
+#### Plain Text
+**Notes**
+
+* We strongly encourage all website admins of our software to be using HTTPS. 
+* You can get a _free_ SSL certificate with [Let's Encrypt](https://letsencrypt.org/) and use [AcmeTool](https://github.com/hlandau/acme) for automating the process. Thus there's really very little reason to not use SSL/TLS!
+
+##### Nginx Plain-Text Site Config
+
 ```nginx
 client_max_body_size 2m;
 server {
-	listen 127.0.0.1:80;
-	server_name localhost;
+	listen 80;
+	server_name your_site;
 
 	root /path/to/your/uploadx/site;
 
@@ -32,6 +36,50 @@ server {
 
 	include snippets/apps/uploadx.conf;
 	include snippets/php/7.0.conf;
+}
+```
+
+#### SSL/TLS Site Config
+**Notes**
+
+* You will need a valid SSL certificate from a Certificate Authority,
+* We recommend using [Let's Encrypt](https://letsencrypt.org/)for a free TLS certificate 
+    * We strongly recommend using [AcmeTool](https://github.com/hlandau/acme) to automate the certificate issuance and renewal process
+
+##### Nginx Site Config
+```nginx
+client_max_body_size 2m;
+server {
+    listen 80;
+    server_name your_site;
+
+	location / {
+		return 301 https://$server_name$request_uri;
+	}
+}
+server {
+    listen 443 ssl;
+    server_name your_site;
+    
+    ssl_certificate /full/path/to/your/ssl/certs/full_cert_chain;
+    ssl_certificate_key /full/path/to/your/ssl/certs/private_key;
+    ssl_session_timeout 1d;
+    ssl_session_cache shared:SSL:50m;
+    ssl_session_tickets off;
+    
+    # modern configuration. tweak to your needs.
+    ssl_protocols TLSv1.1 TLSv1.2;
+    ssl_ciphers 'ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256';
+    ssl_prefer_server_ciphers on;
+    
+    # OCSP Stapling
+    # fetch OCSP records from URL in ssl_certificate and cache them
+    ssl_stapling on;
+    ssl_stapling_verify on;
+    resolver 8.8.8.8;
+    
+    include snippets/apps/uploadx.conf;
+    include snippets/php/7.0.conf;
 }
 ```
 
