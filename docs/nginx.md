@@ -18,9 +18,10 @@ This example **assumes** you are **not** using HTTPS! You would need to edit the
         * Ex `server_name my_pics.com;` if your site was my_pics.conf
     * `root /path/to/your/uploadx/site;` to the location of your UploadX site
         * Ex `root /home/web/uploadx;` If your uploadx install is in the folder uploadx in the home directory of the user web.
+* The `client_max_body_size 10m;` allows Nginx to accept uploads of up to 2MB - to allow larger you will need to edit your php.ini settings as well as adjust this value
 
 ```nginx
-client_max_body_size 10m;
+client_max_body_size 2m;
 server {
 	listen 127.0.0.1:80;
 	server_name localhost;
@@ -79,7 +80,7 @@ location ~* \.php {
     fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
     include fastcgi_params;
     fastcgi_pass unix:/var/run/php7.0-fpm.sock;
-	fastcgi_read_timeout 300;
+    fastcgi_read_timeout 300;
 }
 ```
 
