@@ -144,4 +144,4 @@ You can join our IRC channel - #UploadX on FreeNode and ask for help. If you do 
 2. State your issue clearly and in detail
     * If you are unsure where to look for the cause - describe the issue in detail so that we can help you find the proper log file
     * If you have logs please upload them to a pastebin and include them with a general description of the issue
-3. Include any changes you might have made out side of this guide
+3. Include any changes you might have made beyond this guide
