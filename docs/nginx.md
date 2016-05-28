@@ -43,7 +43,7 @@ server {
 **Notes**
 
 * You will need a valid SSL certificate from a Certificate Authority,
-* We recommend using [Let's Encrypt](https://letsencrypt.org/)for a free TLS certificate 
+* We recommend using [Let's Encrypt](https://letsencrypt.org/) for a free TLS certificate 
     * We strongly recommend using [AcmeTool](https://github.com/hlandau/acme) to automate the certificate issuance and renewal process
 
 ##### Nginx Site Config
