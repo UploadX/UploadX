@@ -35,7 +35,7 @@ if (!isset($config)) {
 define('dbConfig', $config['mysql']);
 define('__UPLOAD__', $config['uploads']['location']);
 define('config', $config);
-define('limits',  config['limits']);
+define('limits',  $config['limits']);
 define('admin_session', $config['security']['session']);
 define('devel', $config['developer']);
 
