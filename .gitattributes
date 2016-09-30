@@ -1,5 +1,9 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+# Convert all text to "LF" (Unix) line endings vs Windows' "CRLF"
+text eol=lf
+*.php text
+*.css text
+*.htaccess text
+*.md text
 
 # Custom for Visual Studio
 *.cs     diff=csharp
