@@ -3,15 +3,15 @@
 
 * These configs are based on a **default** PHP7.0-FPM and Nginx install on **Ubuntu's 16.04 LTS**
 * These configs could change between commits and may **not** be up-to-date
-* Only use these configs as an example - they may not work in your enviorment
+* Only use these configs as an example - they may not work in your environment
 
 
 ## Nginx Configs
 ### Site Configs
-* The following site config examples should be put into your `/etc/nginx/site-avaliable` folder and symlinked to `/etc/nginx/sites-enabled/`
+* The following site config examples should be put into your `/etc/nginx/sites-avaliable` folder and symlinked to `/etc/nginx/sites-enabled/`
 * Be sure to replace the following:
     * `server_name your_site;` with the DNS entry for your site
-        * Ex `server_name my_pics.com;` if your site was my_pics.conf
+        * Ex `server_name my_pics.com;` if your site was my_pics.com
     * `root /path/to/your/uploadx/site;` to the location of your UploadX site
         * Ex `root /home/web/uploadx;` If your uploadx install is in the folder uploadx in the home directory of the user web.
 * The `client_max_body_size 2m;` allows Nginx to accept uploads of up to 2MB - to allow larger you will need to edit your php.ini settings as well as adjust this value
@@ -19,7 +19,7 @@
 #### Plain Text
 **Notes**
 
-* We strongly encourage all website admins of our software to be using HTTPS. 
+* We strongly encourage all website admins of our software to be using HTTPS.
 * You can get a _free_ SSL certificate with [Let's Encrypt](https://letsencrypt.org/) and use [AcmeTool](https://github.com/hlandau/acme) for automating the process. Thus there's really very little reason to not use SSL/TLS!
 
 ##### Nginx Plain-Text Site Config
@@ -43,7 +43,7 @@ server {
 **Notes**
 
 * You will need a valid SSL certificate from a Certificate Authority,
-* We recommend using [Let's Encrypt](https://letsencrypt.org/) for a free TLS certificate 
+* We recommend using [Let's Encrypt](https://letsencrypt.org/) for a free TLS certificate
     * We strongly recommend using [AcmeTool](https://github.com/hlandau/acme) to automate the certificate issuance and renewal process
 
 ##### Nginx Site Config
@@ -59,24 +59,24 @@ server {
 server {
     listen 443 ssl;
     server_name your_site;
-    
+
     ssl_certificate /full/path/to/your/ssl/certs/full_cert_chain;
     ssl_certificate_key /full/path/to/your/ssl/certs/private_key;
     ssl_session_timeout 1d;
     ssl_session_cache shared:SSL:50m;
     ssl_session_tickets off;
-    
+
     # modern configuration. tweak to your needs.
     ssl_protocols TLSv1.1 TLSv1.2;
     ssl_ciphers 'ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256';
     ssl_prefer_server_ciphers on;
-    
+
     # OCSP Stapling
     # fetch OCSP records from URL in ssl_certificate and cache them
     ssl_stapling on;
     ssl_stapling_verify on;
     resolver 8.8.8.8;
-    
+
     include snippets/apps/uploadx.conf;
     include snippets/php/7.0.conf;
 }
@@ -86,7 +86,7 @@ server {
 This is the actual config file that handles Nginx's rewriting.
 
 * Create the snippets/apps directory
-`# mkdir -p /etc/nginx/snippets/apps` 
+`# mkdir -p /etc/nginx/snippets/apps`
 * Save the snippet below as `/etc/nginx/snippets/apps/uploadx.conf`
 
 ```nginx
@@ -134,7 +134,7 @@ location ~* \.php {
 ## Issues?
 #### UploadX cannot write new files or settings!
 This is typically caused by your PHP-FPM (and possibly Nginx) user(s) not having the proper permissions you can fix it with one of the following:
-* Adjust the group (and maybe user) that the files are executing as in PHP-FPM's pool config for your site 
+* Adjust the group (and maybe user) that the files are executing as in PHP-FPM's pool config for your site
 * Add PHP-FPM's group to your list of groups for your site
 
 #### I'm not sure what I'm doing wrong - HELP?
