@@ -14,17 +14,11 @@ It works by setting up ShareX to upload to a custom host (your server). Whenever
 
 SSH into your box.
 
-Create a directory in `/var/www` or where ever apache is configured.
-
-Name the directory to where ever you want your images to go. eg. `http://yoursite/uploads/` 
-
 Clone the repository `git clone https://github.com/PixelPips/UploadX-Updated/`
 
-Move the contents of `UploadX-Updated/` into the folder you created. (eg. `uploads/`)
+Read the [quick start guide.](https://github.com/UploadX/UploadX/blob/master/docs/quickstart.md)
 
-There should be four things. two folders called `lib` and `res` and two files called `index.php` and `.htaccess`.
-
-UploadX should now be installed! continue to configuration.
+Follow the appropriate guide for [Apache](https://github.com/UploadX/UploadX/blob/master/docs/apache.md) or [nginx](https://github.com/UploadX/UploadX/blob/master/docs/nginx.md).
 
 ## How do I configure it?
 
@@ -32,7 +26,9 @@ Once UploadX is installed, go to the admin panel, located at `http://yoursite/<w
 
 Put in the default password (password)
 
-Go to the settings [please continue writing this]
+Go to the "settings" panel, choose your general settings, theme, and most notably, password.
+
+Go to the users panel and create a user. The user name here will show up in the side panel if you enable uploader view.
 
 ## How do I use it with ShareX?
 [Insert link to setup wiki page here]
