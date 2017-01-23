@@ -14,7 +14,7 @@ It works by setting up ShareX to upload to a custom host (your server). Whenever
 
 SSH into your box.
 
-Clone the repository `git clone https://github.com/PixelPips/UploadX-Updated/`
+Clone the repository `git clone https://github.com/UploadX/UploadX/`
 
 Read the [quick start guide.](https://github.com/UploadX/UploadX/blob/master/docs/quickstart.md)
 
