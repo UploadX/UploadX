@@ -1,2 +1,2 @@
 <h1 class="center_text">UploadX Proxy</h1>
-<p class='center_text'>This is where I keep my dank memes. <a href="https://github.com/PixelPips/UploadX" class="">Project github</a>.</p>
+<p class='center_text'>Welcome to UploadX <a href="https://github.com/UploadX/UploadX" class="">Project github</a>.</p>
