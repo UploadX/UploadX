@@ -94,8 +94,8 @@ location /lib/ {
 	deny all;
 }
 
-location ~ "^/admin/([^/]+)?\/?([^/]+)?" {
-	try_files $uri $uri/ /index.php&opt=$2;
+location ~ "^\/admin\/([^/]+)?\/?([^/]+)?" {
+	try_files $uri $uri/ /index.php?page=$1&opt=$2;
 	include snippets/php/7.0.conf;
 }
 location ~ "^/install/step/([0-9]{1,2})$" {
@@ -108,11 +108,11 @@ location / {
 	try_files $uri $uri/ =404;
 }
 location ~ "^/([A-Za-z0-9]{3,10})\.([A-Za-z0-9]{3,4})$" {
-	try_files $uri $uri/ /index.php1&action=view;
+	try_files $uri $uri/ /index.php?id=$1&action=view;
 	include snippets/php/7.0.conf;
 }
 location ~ "^/([A-Za-z0-9]{4})/?(view)?" {
-	try_files $uri $uri/ /index.php1&action=$2;
+	try_files $uri $uri/ /index.php?id=$1&action=$2;
 	include snippets/php/7.0.conf;
 }
 ```
