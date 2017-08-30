@@ -69,6 +69,8 @@ class settingsHandler {
     $outConfig .= $this->configFormatCommentSingle("MySQL Configuration - End User NEEDS to configure this", 3);
     $outConfig .= $this->configBuildSection('mysql');
 
+    $outConfig .= $this->configBuildSection('general');
+
 //    $outConfig .= $this->configFormatCommentSingle("Upload Related Settings", 3);
     $outConfig .= $this->configBuildSection('uploads');
 
