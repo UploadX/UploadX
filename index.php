@@ -45,11 +45,11 @@ if(!empty($_SERVER['HTTPS']))
   $connection = 'https';
 
 // global vairiable to tell the script exactly what the home url is, including http/https, sub folders, etc.
-$GLOBALS['home'] =  $connection . '://' . str_replace("index.php", "", $_SERVER['SERVER_NAME'] . $_SERVER['PHP_SELF']);
+$GLOBALS['home'] =  $connection . '://' . str_replace("index.php", "", $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']);
 $GLOBALS['dir'] = __DIR__ ;
 
 define('ROOTPATH', __DIR__);
-define('BASE_URL', $connection . '://' . str_replace("index.php", "", $_SERVER['SERVER_NAME'] . $_SERVER['PHP_SELF']));
+define('BASE_URL', $connection . '://' . str_replace("index.php", "", $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']));
 
 // create the handlers
 $errorHandler = new errorHandler();
