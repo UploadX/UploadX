@@ -39,17 +39,12 @@ define('limits',  config['limits']);
 define('admin_session', $config['security']['session']);
 define('devel', $config['developer']);
 
-// logic to detect http/https connection
-$connection = 'http';
-if(!empty($_SERVER['HTTPS']))
-  $connection = 'https';
-
 // global vairiable to tell the script exactly what the home url is, including http/https, sub folders, etc.
-$GLOBALS['home'] =  $connection . '://' . str_replace("index.php", "", $_SERVER['SERVER_NAME'] . $_SERVER['PHP_SELF']);
+$GLOBALS['home'] =  $config['general']['domain'];
 $GLOBALS['dir'] = __DIR__ ;
 
 define('ROOTPATH', __DIR__);
-define('BASE_URL', $connection . '://' . str_replace("index.php", "", $_SERVER['SERVER_NAME'] . $_SERVER['PHP_SELF']));
+define('BASE_URL', $config['general']['domain']);
 
 // create the handlers
 $errorHandler = new errorHandler();

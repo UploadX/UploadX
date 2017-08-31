@@ -7,6 +7,9 @@
             'pass' => 'uploadx',
             'database' => 'uploadx',
         ),
+        'general' => array(
+            'domain' => 'https://enter.your....site.here.com/',
+        ),
 
         'uploads' => array(
             'location' => '/full/path/to/your/upload-base-directory/',	//Change this line to reflect your full path to your upload directory
