@@ -24,7 +24,7 @@
                     <div id="st-trigger-effects" class="animated fadeInDown">
 
                         <button data-effect="st-effect-4">
-                            <img id="menu_button" src="./res/img/menu.png" height="40px" onclick='return false;'>
+                            <img id="menu_button" src="<?php echo $GLOBALS['home'] ?>res/img/menu.png" height="40px" onclick='return false;'>
                         </button>
 
                     </div>
@@ -37,8 +37,8 @@
                 </div>
             </div>
 
-            <script src="./res/js/classie.js"></script>
-            <script src="./res/js/sidebarEffects.js"></script>
+            <script src="<?php echo $GLOBALS['home'] . "res/js/classie.js"?>"></script>
+            <script src="<?php echo $GLOBALS['home'] . "res/js/sidebarEffects.js"?>"></script>
     </body>
 
 </html>
