@@ -63,9 +63,9 @@ class fileHandler
 
       $file_type = $this->getMIME($new_file_location);
       if ($file_type == 'image/jpeg') {
-	      if (extension_loaded('imagick')) {
-		      $strip_img = new Imagick($new_file_location);
-		      $strip_img->stripImage();
+        if (extension_loaded('imagick')) {
+          $strip_img = new Imagick($new_file_location);
+          $strip_img->stripImage();
           $strip_img->writeImage($new_file_location);
         }
         else if (extension_loaded('gd')) {
