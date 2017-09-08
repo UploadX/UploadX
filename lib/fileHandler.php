@@ -62,6 +62,19 @@ class fileHandler
       }
 
       $file_type = $this->getMIME($new_file_location);
+      if ($file_type == 'image/jpeg') {
+	      if (extension_loaded('imagick')) {
+		      $strip_img = new Imagick($new_file_location);
+		      $strip_img->stripImage();
+          $strip_img->writeImage($new_file_location);
+        }
+        else if (extension_loaded('gd')) {
+          imagejpeg(imagecreatefromjpeg($new_file_location),$new_file_location,100);
+        }
+        else {
+          error_log("GD or Imagick Extensions are not install. Cannot strip EXIF data.", 0);
+        }
+      }
       $file_size = $this->filesizeConvert(filesize($new_file_location));
 
       if ($this->db->uploadAdd($new_file_name, $file_id, $old_name, $file_type, $username, $user_ip, $time, $file_size, $delete)) {
