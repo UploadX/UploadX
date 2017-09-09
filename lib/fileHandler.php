@@ -120,8 +120,6 @@ function imageSaveToAny($image,$type,$filepath) {
 		$strip_img->writeImage($new_file_location);
 	}
 	else if (extension_loaded('gd')) {	
-		error_log($file_type,0);
-		error_log(" - type in GD",0);
 		$this->imageSaveToAny($this->ImageCreateFromAny($new_file_location,$file_type),$file_type,$new_file_location);
 	}
 	else {
