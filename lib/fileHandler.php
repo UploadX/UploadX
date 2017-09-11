@@ -110,9 +110,23 @@ function imageStripExif($type,$filepath) {
       $file_size = $this->filesizeConvert(filesize($new_file_location));
 
       if ($this->db->uploadAdd($new_file_name, $file_id, $old_name, $file_type, $username, $user_ip, $time, $file_size, $delete)) {
-        header("Location: ./$file_id");
+        // Respond with JSON upon sucessful upload.
+	header("Location: ./$file_id");
         header("Content-Type: application/json");
-        echo json_encode(array("id" => $file_id));
+        echo json_encode(array(
+          'data' => array(
+              'id' => $file_id,
+              'datetime' => $time,
+              'width' => '',
+              'height' => '',
+              'size' => $file_size,
+              'type' => $file_type,
+              'deletehash' => '',
+              'link' => $GLOBALS['home'] . $file_id,
+          ),
+          'success' => true,
+          'status' => 200,
+        ));
       } else {
         $this->errorHandler->throwError('upload:error');
       }
