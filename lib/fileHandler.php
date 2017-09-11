@@ -114,18 +114,14 @@ function imageStripExif($type,$filepath) {
 	header("Location: ./$file_id");
         header("Content-Type: application/json");
         echo json_encode(array(
-          'data' => array(
-              'id' => $file_id,
-              'datetime' => $time,
-              'width' => '',
-              'height' => '',
-              'size' => $file_size,
-              'type' => $file_type,
-              'deletehash' => '',
-              'link' => $GLOBALS['home'] . $file_id,
-          ),
-          'success' => true,
-          'status' => 200,
+	    'id' => $file_id,
+            'datetime' => $time,
+            'width' => '',
+            'height' => '',
+            'size' => $file_size,
+            'type' => $file_type,
+            'deletehash' => '',
+            'link' => $GLOBALS['home'] . $file_id,
         ));
       } else {
         $this->errorHandler->throwError('upload:error');
