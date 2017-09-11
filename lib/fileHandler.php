@@ -25,54 +25,31 @@ class fileHandler
     $this->base_dir = $this->settingsHandler->getSettings()['uploads']['location'];
   }
 
- function imageCreateFromAny($filepath,$type) { 
+// Strip Image depending on MIME Type using the GD PHP extension
+function imageStripExif($type,$filepath) { 
     $allowedTypes = array( 
-        'image/gif',  // [] gif 
-        'image/jpeg',  // [] jpg 
-        'image/png',  // [] png 
-        'image/bmp'   // [] bmp 
-    ); 
-    if (!in_array($type, $allowedTypes)) { 
-        return false; 
-    } 
-    switch ($type) { 
-        case 'image/gif' : 
-            $im = imageCreateFromGif($filepath); 
-        break; 
-        case 'image/jpeg' : 
-            $im = imageCreateFromJpeg($filepath); 
-        break; 
-        case 'image/png' : 
-            $im = imageCreateFromPng($filepath); 
-        break; 
-        case 'image/bmp' : 
-            $im = imageCreateFromBmp($filepath); 
-        break; 
-    }    
-    return $im;  
- } 
-
-function imageSaveToAny($image,$type,$filepath) { 
-    $allowedTypes = array( 
-        'image/gif',  // [] gif 
-        'image/jpeg',  // [] jpg 
-        'image/png',  // [] png 
-        'image/bmp'   // [] bmp 
+        'image/gif',
+        'image/jpeg', 
+        'image/png', 
+        'image/bmp'
     ); 
     if (!in_array($type, $allowedTypes)) { 
         return false; 
     }
-    error_log($type,0); 
-    if ($type == 'image/gif') { 
-        imagegif($image,$filepath); 
-    } else if ($type == 'image/jpeg') {
-        imagejpeg($image,$filepath,100); 
-    } else if ($type == 'image/png') {
-        imagepng($image,$filepath,0); 
-    } else if ($type == 'image/bmp') { 
-        imagebmp($image,$filepath,false); 
+    switch ($type) {
+        case 'image/gif' :
+            imagegif(imageCreateFromGif($filepath),$filepath);
+        break;
+        case 'image/jpeg' :
+            imagejpeg(imageCreateFromJpeg($filepath),$filepath,100);
+        break;
+        case 'image/png' :
+            imagepng(imageCreateFromPng($filepath),$filepath,0);
+        break;
+        case 'image/bmp' :
+            imagebmp(imageCreateFromBmp($filepath),$filepath,false);
+        break;
     }
-     
 } 
 
   function saveFile($file, $uploader) {
@@ -113,18 +90,22 @@ function imageSaveToAny($image,$type,$filepath) {
 
       $file_type = $this->getMIME($new_file_location);
 
+      // attempt to strip exif data if the correct extensions are loaded
       if ($file_type == 'image/jpeg' || $file_type == 'image/png' || $file_type == 'image/gif' ||  $file_type == 'image/bmp') {
-	if (extension_loaded('imagick')) {
-		$strip_img = new Imagick($new_file_location);
-		$strip_img->stripImage();
-		$strip_img->writeImage($new_file_location);
-	}
-	else if (extension_loaded('gd')) {	
-		$this->imageSaveToAny($this->ImageCreateFromAny($new_file_location,$file_type),$file_type,$new_file_location);
-	}
-	else {
-		error_log("GD or Imagick Extensions are not install. Cannot strip EXIF data.", 0);
-	}
+        if (extension_loaded('imagick')) {
+	  // Strip with Imagick
+          $strip_img = new Imagick($new_file_location);
+          $strip_img->stripImage();
+          $strip_img->writeImage($new_file_location);
+        }
+        else if (extension_loaded('gd')) {
+	  // Strip with GD
+          $this->imageStripExif($file_type,$new_file_location);
+        }
+        else {
+	  // Fail to strip, log failure, continue uploading image
+          error_log("GD or Imagick Extensions are not install. Cannot strip EXIF data.", 0);
+        }
       }
       $file_size = $this->filesizeConvert(filesize($new_file_location));
 
