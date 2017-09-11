@@ -111,6 +111,8 @@ function imageStripExif($type,$filepath) {
 
       if ($this->db->uploadAdd($new_file_name, $file_id, $old_name, $file_type, $username, $user_ip, $time, $file_size, $delete)) {
         header("Location: ./$file_id");
+        header("Content-Type: application/json");
+        echo json_encode(array("id" => $file_id));
       } else {
         $this->errorHandler->throwError('upload:error');
       }
