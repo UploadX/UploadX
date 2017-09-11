@@ -25,6 +25,33 @@ class fileHandler
     $this->base_dir = $this->settingsHandler->getSettings()['uploads']['location'];
   }
 
+// Strip Image depending on MIME Type using the GD PHP extension
+function imageStripExif($type,$filepath) { 
+    $allowedTypes = array( 
+        'image/gif',
+        'image/jpeg', 
+        'image/png', 
+        'image/bmp'
+    ); 
+    if (!in_array($type, $allowedTypes)) { 
+        return false; 
+    }
+    switch ($type) {
+        case 'image/gif' :
+            imagegif(imageCreateFromGif($filepath),$filepath);
+        break;
+        case 'image/jpeg' :
+            imagejpeg(imageCreateFromJpeg($filepath),$filepath,100);
+        break;
+        case 'image/png' :
+            imagepng(imageCreateFromPng($filepath),$filepath,0);
+        break;
+        case 'image/bmp' :
+            imagebmp(imageCreateFromBmp($filepath),$filepath,false);
+        break;
+    }
+} 
+
   function saveFile($file, $uploader) {
 
     // set all the interesting data
@@ -62,6 +89,24 @@ class fileHandler
       }
 
       $file_type = $this->getMIME($new_file_location);
+
+      // attempt to strip exif data if the correct extensions are loaded
+      if ($file_type == 'image/jpeg' || $file_type == 'image/png' || $file_type == 'image/gif' ||  $file_type == 'image/bmp') {
+        if (extension_loaded('imagick')) {
+	  // Strip with Imagick
+          $strip_img = new Imagick($new_file_location);
+          $strip_img->stripImage();
+          $strip_img->writeImage($new_file_location);
+        }
+        else if (extension_loaded('gd')) {
+	  // Strip with GD
+          $this->imageStripExif($file_type,$new_file_location);
+        }
+        else {
+	  // Fail to strip, log failure, continue uploading image
+          error_log("GD or Imagick Extensions are not install. Cannot strip EXIF data.", 0);
+        }
+      }
       $file_size = $this->filesizeConvert(filesize($new_file_location));
 
       if ($this->db->uploadAdd($new_file_name, $file_id, $old_name, $file_type, $username, $user_ip, $time, $file_size, $delete)) {
